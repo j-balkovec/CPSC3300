@@ -274,4 +274,3 @@ Each entity in the diagram is associated with a set of attributes that describe 
 ### Additional Notes:
 
 - Things are subject to change.
-- Keep track of any updates or modifications.
