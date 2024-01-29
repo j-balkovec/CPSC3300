@@ -270,6 +270,14 @@ Each entity in the diagram is associated with a set of attributes that describe 
   - **Participation**: 
     - Mandatory participation on the profile side (each plant must be associated with a profile), and optional participation on the plant side (a profile may or may not have associated plants).
 
+- **`User-Media`**
+  - **Type**: Mandatory One-to-Many Optional
+  - **Description**: 
+    - Each User can add multiple pictures/videos/GIFs, while each pictures/videos/GIFs belongs to only one User.
+  - **Cardinality**: 
+    - One User can add multiple pictures/videos/GIFs, but each picture/video/GIF is associated with only one User.
+  - **Participation**: 
+    - Mandatory participation on the User side (each picture/video/GIF must be associated with a profile), and optional participation on the Media side (a User may or may not add media).
 
 ### Additional Notes:
 
