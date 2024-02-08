@@ -87,8 +87,8 @@ Each entity in the diagram is associated with a set of attributes that describe 
  
 ### **Message**
   - **`[PK] MessageID (INT) NOT NULL`**: Primary Key, uniquely identifies each message.
-  - ***`[FK1] UserID (INT) NOT NULL UNIQUE {SENDER}`***: Foreign Key referencing the User entity, linking the Message to its respective User.
-  - ***`[FK2] UserID (INT) NOT NULL UNIQUE {RECIEVER}`***: Foreign Key referencing the User entity, linking the Message to its respective User. 
+  - ***`[FK1] UserIDReceiver (INT) NOT NULL UNIQUE {SENDER}`***: Foreign Key referencing the User entity, linking the Message to its respective User.
+  - ***`[FK2] UserIDSender (INT) NOT NULL UNIQUE {RECIEVER}`***: Foreign Key referencing the User entity, linking the Message to its respective User. 
   - `Content (VARCHAR(n))`: Textual content of the message.
   - `Timestamp (DATETIME)`: Date and time when the message was sent.
   - `Status (ENUM)`: Indicates the status of the message, such as "sent," "delivered," or "read."
@@ -118,7 +118,8 @@ Each entity in the diagram is associated with a set of attributes that describe 
 
 ### **Media**
   - **`[PK] MediaID (INT) NOT NULL`**: Primary Key, uniquely identifies each media.
-  - ***`[FK1] GoalID (INT) NOT NULL {SENDER}`***: Foreign Key referencing the User entity, linking the Message to its respective User.
+  - ***`[FK1] GoalID (INT) NOT NULL`***: Foreign Key referencing the User entity, linking the Message to its respective User.
+  -- ***`[FK2] UserID (INT) NOT NULL`***
   - `Content (BLOB)`: Binary Large Object (BLOB) field to store the media content.
   - `DateUploaded (DATE)`: Date when the media was uploaded or created.
   - `PrivacySettings (ENUM)`: Enumerated type representing the privacy settings of the media, determining who can view or access it.
