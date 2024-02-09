@@ -2,6 +2,26 @@
 
 ## Title: Q_Project Milestone 2
 ---
+### Note on Data Population
+At this stage, the table remains devoid of any data entries. Therefore, when we refer to *"<u>all data in the table is atomic</u>"* we emphasize the absence of comma-separated values within the table
+
+---
+<!--
+Normalization:
+
+First Normal Form (1NF): 
+    - Ensures that each table has a unique identifier and that all attributes contain atomic values, 
+      meaning they cannot be further divided.
+
+Second Normal Form (2NF): 
+    - Requires that each non-key attribute is fully functionally dependent on the entire primary key, 
+      eliminating partial dependencies.
+
+Third Normal Form (3NF): 
+    - Ensures that there are no transitive dependencies, meaning that non-key attributes are not 
+      dependent on other non-key attributes within the same table.
+
+-->
 <!-- 1 -->
 ### Profile Table
 
@@ -18,8 +38,15 @@
   - `JoinDate`
   - `LastActive`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`ProfileID`) and all attributes contain atomic values.
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Profile table was designed in `3NF` from the outset. All attributes are fully functionally dependent on the primary key (`ProfileID`), and there are no transitive dependencies present. Each column contains atomic values, and there are no repeating groups.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`ProfileID`), and there are no transitive dependencies present.
+
 
 ---
 <!-- 2 -->
@@ -33,9 +60,16 @@
   - `PhoneNumber`
   - `DateOfBirth`
   <br>
-- **Normalization Level**: `3NF`
-- **Justification**: Similar to the Profile table, the User table follows `3NF` principles. All non-prime attributes are fully functionally dependent on the primary key (`UserID`), and there are no transitive dependencies present. Each column contains atomic values without any repeating groups.
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`UserID`) and all attributes contain atomic values.
+<br>
 
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
+- **Normalization Level**: `3NF`
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`UserID`), and there are no transitive dependencies present.
 ---
 <!-- 3 -->
 ### Group Table
@@ -48,8 +82,16 @@
   - `MemberCount`
   - `CreationDate`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`GroupID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Group table is in `3NF`. All attributes are fully functionally dependent on the primary key (`GroupID`), and there are no transitive dependencies present. Each column contains atomic values, and there are no repeating groups.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`GroupID`), and there are no transitive dependencies present.
 
 ---
 <!-- 4 -->
@@ -60,8 +102,16 @@
   - `UserID (FK)`
   - `GroupID (FK)` 
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`GroupUserID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key. Additionally, the use of a composite primary key (`UserID` and `GroupID`) ensures uniqueness and further eliminates potential partial dependencies.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The GroupUser table adheres to `3NF` principles. The primary key (GroupUserID) uniquely identifies each record, and the foreign keys (`UserID`, `GroupID`) establish relationships between users and groups. There are no transitive dependencies present.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`GroupUserID`), and there are no transitive dependencies present.
 
 ---
 <!-- 5 -->
@@ -76,8 +126,16 @@
   - `DaysStreakDead`
   - `DaysStreakKeptAlive`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`PlantID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Plant table is in `3NF`. The primary key (`PlantID`) uniquely identifies each record, and the foreign keys (`GoalID`, `ProfileID`) establish relationships with the Goal and Profile tables, respectively. All attributes are fully functionally dependent on the primary key.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`PlantID`), and there are no transitive dependencies present.
 
 ---
 <!-- 6 -->
@@ -91,8 +149,17 @@
   - `Timestamp`
   - `Status`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`MessageID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Message table is in `3NF`. The primary key (MessageID) uniquely identifies each message, and the foreign keys (`UserID`, `UserID`) establish relationships with the User table. All attributes are fully functionally dependent on the primary key, and there are no transitive dependencies present.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`MessageID`), and there are no transitive dependencies present.
+
 
 ---
 <!-- 7 -->
@@ -108,8 +175,16 @@
   - `Score`
   - `PrivacySettings`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`GoalID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key. Additionally, composite keys or multiple candidate keys, if present, have been appropriately identified and accounted for in the design.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Goal table follows `3NF` principles. The primary key (`GoalID`) uniquely identifies each goal, and the foreign keys (`UserID`, `ProfileID`) establish relationships with the User and Profile tables. All attributes are fully functionally dependent on the primary key without any transitive dependencies.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`GoalID`), and there are no transitive dependencies present.
 
 ---
 <!-- 8 -->
@@ -122,8 +197,17 @@
   - `Content`
   - `Timestamp`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`CommentID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Comment table adheres to `3NF` principles. The primary key (`CommentID`) uniquely identifies each comment, and the foreign keys (`UserID`, `GoalID`) establish relationships with the User and Goal tables. All attributes are fully functionally dependent on the primary key without any transitive dependencies.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`CommentID`), and there are no transitive dependencies present.
+
 
 ---
 <!-- 9 -->
@@ -135,8 +219,16 @@
   - `UserID (FK)`
   - `Timestamp`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`LikeID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Like table is in `3NF`. The primary key (`LikeID`) uniquely identifies each like, and the foreign keys (`GoalID`, `UserID`) establish relationships with the Goal and User tables. All attributes are fully functionally dependent on the primary key, and there are no transitive dependencies present.
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`LikeID`), and there are no transitive dependencies present.
 
 ---
 <!-- 10 -->
@@ -150,5 +242,13 @@
   - `DateUploaded`
   - `PrivacySettings`
   <br>
+- **Normalization Level**: `1NF`
+  - **Justification**: The table is in the first normal form (`1NF`) as it includes a unique identifier (`MediaID`) and all attributes contain atomic values.
+<br>
+
+- **Normalization Level**: `2NF`
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key.
+<br>
+
 - **Normalization Level**: `3NF`
-- **Justification**: The Media table follows `3NF` principles. The primary key (`MediaID`) uniquely identifies each media entry, and the foreign key (`GoalID`) establishes a relationship with the Goal table. All attributes are fully functionally dependent on the primary key without any transitive dependencies
+  - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`MediaID`), and there are no transitive dependencies present.
