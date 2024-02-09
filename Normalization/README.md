@@ -23,7 +23,7 @@ Third Normal Form (3NF):
 
 -->
 <!-- 1 -->
-### Profile Table
+### Entity: `Profile`
 
 - **Attributes**: 
   - `ProfileID (PK)` 
@@ -50,7 +50,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 2 -->
-### User Table
+### Entity: `User` 
 
 - **Attributes**: 
   - `UserID (PK)`
@@ -71,8 +71,8 @@ Third Normal Form (3NF):
 - **Normalization Level**: `3NF`
   - **Justification**: The table meets the requirements of the third normal form (`3NF`) as all attributes are fully functionally dependent on the primary key (`UserID`), and there are no transitive dependencies present.
 ---
-<!-- 3 -->
-### Group Table
+<!-- 3 /Users/jbalkovec/Desktop/CPSC/CPSC 3300/Q_Project/ERdiagram/project_milestone1_erd.drawio-->
+### Entity: `Group`
 
 - **Attributes**: 
   - `GroupID (PK)`
@@ -95,7 +95,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 4 -->
-### GroupUser Table
+### Entity: `GroupUser`
 
 - **Attributes**: 
   - `GroupUserID (PK)` 
@@ -115,7 +115,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 5 -->
-### Plant Table
+### Entity: `Plant`
 
 - **Attributes**: 
   - `PlantID (PK)`
@@ -139,7 +139,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 6 -->
-### Message Table
+### Entity: `Message`
 
 - **Attributes**: 
   - `MessageID (PK)`
@@ -163,7 +163,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 7 -->
-### Goal Table
+### Entity: `Goal` 
 
 - **Attributes**: 
   - `GoalID (PK)`
@@ -180,7 +180,7 @@ Third Normal Form (3NF):
 <br>
 
 - **Normalization Level**: `2NF`
-  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key. Additionally, composite keys or multiple candidate keys, if present, have been appropriately identified and accounted for in the design.
+  - **Justification**: The table satisfies the second normal form (`2NF`) by eliminating partial dependencies, ensuring that every attribute is fully functionally dependent on the entire primary key. 
 <br>
 
 - **Normalization Level**: `3NF`
@@ -188,7 +188,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 8 -->
-### Comment Table
+### Entity: `Comment`
 
 - **Attributes**: 
   - `CommentID (PK)`
@@ -211,7 +211,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 9 -->
-### Like Table
+### Entity: `Like`
 
 - **Attributes**: 
   - `LikeID (PK)`
@@ -232,7 +232,7 @@ Third Normal Form (3NF):
 
 ---
 <!-- 10 -->
-### Media Table
+### Entity: `Media`
 
 - **Attributes**: 
   - `MediaID (PK)`
