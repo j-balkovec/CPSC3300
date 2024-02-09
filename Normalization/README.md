@@ -85,14 +85,14 @@
 
 - **Attributes**: 
   - `MessageID (PK)`
-  - `UserIDSender (FK)`
-  - `UserIDReceiver (FK)`
+  - `UserID (FK)`
+  - `UserID (FK)`
   - `Content`
   - `Timestamp`
   - `Status`
   <br>
 - **Normalization Level**: `3NF`
-- **Justification**: The Message table is in `3NF`. The primary key (MessageID) uniquely identifies each message, and the foreign keys (`UserIDSender`, `UserIDReceiver`) establish relationships with the User table. All attributes are fully functionally dependent on the primary key, and there are no transitive dependencies present.
+- **Justification**: The Message table is in `3NF`. The primary key (MessageID) uniquely identifies each message, and the foreign keys (`UserID`, `UserID`) establish relationships with the User table. All attributes are fully functionally dependent on the primary key, and there are no transitive dependencies present.
 
 ---
 <!-- 7 -->
