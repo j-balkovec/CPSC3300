@@ -344,3 +344,102 @@ SELECT * FROM `Plant`;
 SELECT * FROM `Comment`;
 SELECT * FROM `Like`;
 SELECT * FROM `Media`;
+
+/**
+ * -----------------------------------------------------------------
+ * @brief: SQL Queries
+ * -----------------------------------------------------------------
+ */
+ 
+/**
+ * @name: the result is aliased as 'query_one' for clarity.
+ * @brief: this query retrieves user information along with their profile details.
+ * 		   
+ * @note: it selects the UserID and Username from the User table and the Bio, Education, 
+		  and Job from the Profile table. The tables are joined using an inner join on the 
+          UserID column, ensuring that only matching records from both tables are included 
+          in the result set. 
+*/
+SELECT * FROM 
+(
+SELECT User.UserID, 
+	   User.Username,
+       Profile.Bio, 
+       Profile.Education, 
+       Profile.Job
+FROM User
+INNER JOIN Profile ON User.UserID = Profile.UserID 
+) AS query_one;
+
+/**
+ * @name: the result is presented as average_streak_duration and aliased as 'query_two' for clarity
+ * @brief: this query calculates the average streak duration across all records in the Plant table.
+ *
+ * @note: it uses the aggregate function 'AVG' to compute the average
+*/
+SELECT * FROM
+(
+SELECT AVG(StreakDuration) AS average_streak_duration
+FROM Plant
+) AS query_two;
+
+/**
+ * @name: the result is aliased as 'query_three' for clarity.
+ * @brief: this query retrieves the count of goals for users who have a job title of 
+		   'Software Engineer' from the Goal table.
+ * 
+ * @note: it then joins this information with the corresponding profile details from the Profile table.
+*/
+SELECT query_three.GoalsCount, Profile.*
+FROM (
+    SELECT COUNT(*) AS GoalsCount, UserID
+    FROM Goal
+    WHERE UserID IN (
+        SELECT UserID
+        FROM Profile
+        WHERE Job = 'Software Engineer'
+    )
+    GROUP BY UserID
+) AS query_three
+INNER JOIN Profile ON query_three.UserID = Profile.UserID;
+
+/**
+ * @alias: the result is aliased as 'query_four' for clarity
+ * @brief: this query calculates the total number of public goals and the average score 
+		   for each user from the Goal table.
+ * 
+ * @note: it filters the results to include only users who have posted at least one goal (TotalGoals <> 0) 
+          and whose average score is greater than or equal to 10.
+ * 
+*/
+SELECT * FROM
+(
+SELECT 
+    Goal.UserID,
+    COUNT(*) AS TotalGoals,
+    AVG(Score) AS AverageScore
+FROM 
+    Goal
+WHERE
+    PrivacySettings = 'Public'
+GROUP BY 
+    Goal.UserID
+HAVING 
+    TotalGoals <> 0
+    AND AverageScore >= 10
+) AS query_four;
+
+/**
+ * @name: the result is aliased as 'query_five' for clarity
+ * @brief: this query retrieves information about users and their associated goals.
+ *
+ * @note: it uses a left outer join to ensure that all records from the User table are included in the 
+	      result set, even if there are no matching records in the Goal table.
+*/
+SELECT * FROM
+(
+SELECT User.UserID, User.Username, Goal.Content
+FROM User
+LEFT OUTER JOIN Goal ON User.UserID = Goal.UserID
+) AS query_five;
+ 
