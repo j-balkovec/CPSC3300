@@ -40,12 +40,10 @@ CREATE TABLE IF NOT EXISTS `Profile` (
  */
 CREATE TABLE IF NOT EXISTS `Group` (
     `GroupID` INT PRIMARY KEY NOT NULL, 	-- PK
-    `UserID` INT NOT NULL,					-- FK
     `GroupName` VARCHAR(255),
     `Description` VARCHAR(255),
     `MemberCount` BIGINT,
-    `CreationDate` DATE,
-    FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`) ON UPDATE CASCADE
+    `CreationDate` DATE
 );
 
 /**
@@ -195,18 +193,18 @@ VALUES
 * @table: Group
 * @brief: Data accquired with the help of the 'faker' and 'bcrypt' libraries in Python
 */
-INSERT INTO `Group` (`GroupID`, `UserID`, `GroupName`, `Description`, `MemberCount`, `CreationDate`)
+INSERT INTO `Group` (`GroupID`, `GroupName`, `Description`, `MemberCount`, `CreationDate`)
 VALUES 
-(1, 1, 'Tech Enthusiasts', 'A group for technology enthusiasts to discuss latest trends and developments.', 20, '2023-01-15'),
-(2, 2, 'Fitness Freaks', 'A group dedicated to fitness enthusiasts to share workout routines and motivate each other.', 15, '2023-02-20'),
-(3, 3, 'Book Club', 'A book club where members discuss and review books they are reading.', 30, '2023-03-10'),
-(4, 4, 'Photography Lovers', 'A group for photography enthusiasts to share their photos and techniques.', 25, '2023-04-05'),
-(5, 5, 'Foodies Unite', 'A group for food lovers to share recipes, restaurant recommendations, and cooking tips.', 40, '2023-05-18'),
-(6, 6, 'Travel Addicts', 'A group for travel enthusiasts to share travel experiences, tips, and destination recommendations.', 50, '2023-06-30'),
-(7, 7, 'Artists Collective', 'A group for artists to showcase their artwork, discuss techniques, and collaborate on projects.', 20, '2023-07-11'),
-(8, 8, 'Entrepreneurship Hub', 'A group for aspiring and established entrepreneurs to share insights, resources, and networking opportunities.', 35, '2023-08-25'),
-(9, 9, 'Music Lovers', 'A group for music enthusiasts to discuss their favorite genres, artists, and concerts.', 45, '2023-09-19'),
-(10, 10, 'Film Buffs', 'A group for film enthusiasts to discuss movies, directors, and upcoming releases.', 30, '2023-10-07');
+(1, 'Tech Enthusiasts', 'A group for technology enthusiasts to discuss latest trends and developments.', 20, '2023-01-15'),
+(2, 'Fitness Freaks', 'A group dedicated to fitness enthusiasts to share workout routines and motivate each other.', 15, '2023-02-20'),
+(3, 'Book Club', 'A book club where members discuss and review books they are reading.', 30, '2023-03-10'),
+(4, 'Photography Lovers', 'A group for photography enthusiasts to share their photos and techniques.', 25, '2023-04-05'),
+(5, 'Foodies Unite', 'A group for food lovers to share recipes, restaurant recommendations, and cooking tips.', 40, '2023-05-18'),
+(6, 'Travel Addicts', 'A group for travel enthusiasts to share travel experiences, tips, and destination recommendations.', 50, '2023-06-30'),
+(7, 'Artists Collective', 'A group for artists to showcase their artwork, discuss techniques, and collaborate on projects.', 20, '2023-07-11'),
+(8, 'Entrepreneurship Hub', 'A group for aspiring and established entrepreneurs to share insights, resources, and networking opportunities.', 35, '2023-08-25'),
+(9, 'Music Lovers', 'A group for music enthusiasts to discuss their favorite genres, artists, and concerts.', 45, '2023-09-19'),
+(10, 'Film Buffs', 'A group for film enthusiasts to discuss movies, directors, and upcoming releases.', 30, '2023-10-07');
 
 /**
 * @table: GroupUser
@@ -348,6 +346,11 @@ SELECT * FROM `Media`;
 /**
  * -----------------------------------------------------------------
  * @brief: SQL Queries
+ **** @README: ****
+ * - '@brief': provides a concise summary of the purpose of each query (one or two sentences)
+ * - '@name': specifies the name or alias of the query
+ * - '@note': offers a more detailed explanation of the query's functionality
+ * - '@question': indicates the intended purpose or the initial idea behind the query as discussed in class
  * -----------------------------------------------------------------
  */
  
@@ -359,6 +362,8 @@ SELECT * FROM `Media`;
 		  and Job from the Profile table. The tables are joined using an inner join on the 
           UserID column, ensuring that only matching records from both tables are included 
           in the result set. 
+ *          
+ * @question: What are the usernames, biographies, education backgrounds, and job information for all users who have filled out their profiles?
 */
 SELECT * FROM 
 (
@@ -376,6 +381,8 @@ INNER JOIN Profile ON User.UserID = Profile.UserID
  * @brief: this query calculates the average streak duration across all records in the Plant table.
  *
  * @note: it uses the aggregate function 'AVG' to compute the average
+ *
+ * @question: What is the average duration of streaks for all plants (progress towards a goal) in the Plant table?
 */
 SELECT * FROM
 (
@@ -389,6 +396,9 @@ FROM Plant
 		   'Software Engineer' from the Goal table.
  * 
  * @note: it then joins this information with the corresponding profile details from the Profile table.
+ *
+ * @question: What is the count of/How many goals (are) set by each user who has listed their job as 'Software Engineer' in their profile, 
+			  and what are the details of these users' profiles?
 */
 SELECT query_three.GoalsCount, Profile.*
 FROM (
@@ -411,6 +421,7 @@ INNER JOIN Profile ON query_three.UserID = Profile.UserID;
  * @note: it filters the results to include only users who have posted at least one goal (TotalGoals <> 0) 
           and whose average score is greater than or equal to 10.
  * 
+ * @question: Which users have set public goals, and among them, whose average score across all their goals is 10 or higher, and how many goals have they set in total?
 */
 SELECT * FROM
 (
@@ -435,6 +446,8 @@ HAVING
  *
  * @note: it uses a left outer join to ensure that all records from the User table are included in the 
 	      result set, even if there are no matching records in the Goal table.
+ * 
+ * @qeustion: What are the usernames and corresponding user IDs of all users, along with any associated goal content if they have set any goals?
 */
 SELECT * FROM
 (
