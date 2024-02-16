@@ -447,7 +447,7 @@ HAVING
  * @note: it uses a left outer join to ensure that all records from the User table are included in the 
 	      result set, even if there are no matching records in the Goal table.
  * 
- * @qeustion: What are the usernames and corresponding user IDs of all users, along with any associated goal content if they have set any goals?
+ * @question: What are the usernames and corresponding user IDs of all users, along with any associated goal content if they have set any goals?
 */
 SELECT * FROM
 (
