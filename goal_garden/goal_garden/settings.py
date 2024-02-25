@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from .secrets import PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,11 +75,18 @@ WSGI_APPLICATION = "goal_garden.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Project1',
+        'USER': 'root',
+        'PASSWORD': PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
+    
+    #add for colin and jacob
 }
+
 
 
 # Password validation
