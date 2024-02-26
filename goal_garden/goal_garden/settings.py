@@ -9,10 +9,26 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
+import logging
+from logging.config import dictConfig
 
 from pathlib import Path
-from .secrets import PASSWORD
+from .secrets import PASSWORD, SECRET_KEY__
 
+LOG_DIR = os.path.join(os.getcwd(), 'logs')
+LOG_FILE = os.path.join(LOG_DIR, 'django.log')
+LOG_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
+
+# Creates the log directory if it does not exist.
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+# Clears the contents of the log file.
+def clear_log_file():
+    with open(LOG_FILE, 'w') as log_file:
+        log_file.write('')
+        
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,33 +37,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-nk_ztfp$i-7nopn-e^9mfkw@++i%g1+fg@bd6xbig#(k$!0%y+"
+SECRET_KEY = SECRET_KEY__
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jbalkovec']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "goal_garden",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.admin",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
 ]
 
 ROOT_URLCONF = "goal_garden.urls"
@@ -84,10 +101,8 @@ DATABASES = {
         'PORT': '3306',
     }
     
-    #add for colin and jacob
+    #add for colin and jakob
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -107,6 +122,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': LOG_FORMAT,
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_DIR, 'django.log'),
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+logging.config.dictConfig(LOGGING)
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -119,7 +160,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -129,3 +169,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Clear the log file before running the server.
+clear_log_file()
