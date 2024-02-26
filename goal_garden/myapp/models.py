@@ -58,174 +58,684 @@ FREQUENCY = (
   ('yearly', 'Yearly'),
 )
 
+from django.db import models
+
 class User(models.Model):
     """
-    Represents registered users of the system.
+    Represents a user in the system.
 
     Attributes:
+        userid (int): The unique identifier for the user.
         username (str): The username of the user.
-        password (str): The hashed password of the user.
+        password (str): The password of the user.
         email (str): The email address of the user.
-        phone_number (str): The phone number of the user.
-        date_of_birth (DateField): The date of birth of the user.
+        phonenumber (str): The phone number of the user.
+        dateofbirth (date): The date of birth of the user.
     """
-    username = models.CharField(max_length=255, unique=True)
-    password = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=255, unique=True)
-    date_of_birth = models.DateField()
+
+    userid = models.IntegerField(db_column='UserID', primary_key=True)   
+    username = models.CharField(db_column='Username', unique=True, max_length=255, blank=True, null=True)   
+    password = models.CharField(db_column='Password', max_length=255, blank=True, null=True)   
+    email = models.CharField(db_column='Email', max_length=255, blank=True, null=True)   
+    phonenumber = models.CharField(db_column='PhoneNumber', max_length=255, blank=True, null=True)   
+    dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the User model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'User'
 
 class Profile(models.Model):
     """
-    Represents user profiles.
+    Represents a user profile.
 
     Attributes:
-        user (User): The user associated with the profile.
+        profileid (int): The ID of the profile (primary key).
+        userid (User): The user associated with the profile.
         bio (str): The biography of the user.
-        education (str): The education details of the user.
-        job (str): The job details of the user.
+        education (str): The education information of the user.
+        job (str): The job information of the user.
         interests (str): The interests of the user.
-        privacy_settings (str): The privacy settings of the user.
-        profile_picture (BinaryField): The profile picture of the user.
-        cover_photo (BinaryField): The cover photo of the user.
-        join_date (DateField): The date when the user joined.
-        last_active (DateTimeField): The last active date and time of the user.
+        privacysettings (str): The privacy settings of the user.
+        profilepicture (str): The URL of the profile picture.
+        coverphoto (str): The URL of the cover photo.
+        joindate (date): The date when the user joined.
+        lastactive (datetime): The last active timestamp of the user.
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.CharField(max_length=255, blank=True)
-    education = models.CharField(max_length=255, blank=True)
-    job = models.CharField(max_length=255, blank=True)
-    interests = models.CharField(max_length=255, blank=True)
-    privacy_settings = models.CharField(max_length=255, choices=PRIVACY)
-    profile_picture = models.BinaryField(blank=True)
-    cover_photo = models.BinaryField(blank=True)
-    join_date = models.DateField(auto_now_add=True)
-    last_active = models.DateTimeField(auto_now=True)
 
+    profileid = models.IntegerField(db_column='ProfileID', primary_key=True)   
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')   
+    bio = models.CharField(db_column='Bio', max_length=255, blank=True, null=True)   
+    education = models.CharField(db_column='Education', max_length=255, blank=True, null=True)   
+    job = models.CharField(db_column='Job', max_length=255, blank=True, null=True)   
+    interests = models.CharField(db_column='Interests', max_length=255, blank=True, null=True)   
+    privacysettings = models.CharField(db_column='PrivacySettings', max_length=11, blank=True, null=True)   
+    profilepicture = models.TextField(db_column='ProfilePicture', blank=True, null=True)   
+    coverphoto = models.TextField(db_column='CoverPhoto', blank=True, null=True)   
+    joindate = models.DateField(db_column='JoinDate', blank=True, null=True)   
+    lastactive = models.DateTimeField(db_column='LastActive', blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+
+    class Meta:
+        """
+        Meta class for the Profile model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Profile'
+            
 class Group(models.Model):
     """
-    Represents groups created by users.
+    Represents a group in the application.
 
     Attributes:
-        group_name (str): The name of the group.
+        groupid (int): The ID of the group (primary key).
+        groupname (str): The name of the group.
         description (str): The description of the group.
-        member_count (int): The number of members in the group.
-        creation_date (DateField): The date when the group was created.
+        membercount (int): The number of members in the group.
+        creationdate (date): The date when the group was created.
     """
-    group_name = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
-    member_count = models.BigIntegerField()
-    creation_date = models.DateField(auto_now_add=True)
+    groupid = models.IntegerField(db_column='GroupID', primary_key=True)   
+    groupname = models.CharField(db_column='GroupName', max_length=255, blank=True, null=True)   
+    description = models.CharField(db_column='Description', max_length=255, blank=True, null=True)   
+    membercount = models.BigIntegerField(db_column='MemberCount', blank=True, null=True)   
+    creationdate = models.DateField(db_column='CreationDate', blank=True, null=True)   
+    
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Group model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Group'
 
-class GroupUser(models.Model):
+class Groupuser(models.Model):
     """
-    Represents the association between users and groups.
-
+    Model representing the relationship between a user and a group.
+    
     Attributes:
-        user (User): The user in the group.
-        group (Group): The group the user belongs to.
+        groupuserid (int): The ID of the group user.
+        userid (ForeignKey): The user associated with the group user.
+        groupid (ForeignKey): The group associated with the group user.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    groupuserid = models.IntegerField(db_column='GroupUserID', primary_key=True)   
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')   
+    groupid = models.ForeignKey(Group, models.DO_NOTHING, db_column='GroupID')   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the GroupUser model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'GroupUser'
 
 class Message(models.Model):
     """
-    Represents messages sent between users.
+    Model representing a message.
 
     Attributes:
-        sender (User): The sender of the message.
-        receiver (User): The receiver of the message.
+        messageid (int): The ID of the message (primary key).
+        useridsender (ForeignKey): The ID of the user who sent the message.
+        useridreceiver (ForeignKey): The ID of the user who received the message.
         content (str): The content of the message.
-        timestamp (DateTimeField): The timestamp when the message was sent.
+        timestamp (datetime): The timestamp when the message was sent.
         status (str): The status of the message.
     """
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
-    content = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=255, choices=MESSAGE_STATUS)
+    messageid = models.IntegerField(db_column='MessageID', primary_key=True)   
+    useridsender = models.ForeignKey('User', models.DO_NOTHING, db_column='UserIDSender')   
+    useridreceiver = models.ForeignKey('User', models.DO_NOTHING, db_column='UserIDReceiver')   
+    content = models.CharField(db_column='Content', max_length=255, blank=True, null=True)   
+    timestamp = models.DateTimeField(db_column='Timestamp', blank=True, null=True)   
+    status = models.CharField(db_column='Status', max_length=9, blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Message model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Message'
 
 class Goal(models.Model):
     """
-    Represents user goals.
+    Represents a goal in the application.
 
     Attributes:
-        user (User): The user associated with the goal.
-        profile (Profile): The profile associated with the goal.
+        goalid (int): The ID of the goal (primary key).
+        userid (ForeignKey): The ID of the user associated with the goal.
+        profileid (ForeignKey): The ID of the profile associated with the goal.
         content (str): The content of the goal.
-        date_posted (DateField): The date when the goal was posted.
+        dateposted (date): The date when the goal was posted.
         frequency (str): The frequency of the goal.
         score (int): The score of the goal.
-        privacy_settings (str): The privacy settings of the goal.
+        privacysettings (str): The privacy settings of the goal.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    content = models.CharField(max_length=255)
-    date_posted = models.DateField(auto_now_add=True)
-    frequency = models.CharField(max_length=255, choices=FREQUENCY)
-    score = models.BigIntegerField()
-    privacy_settings = models.CharField(max_length=255, choices=PRIVACY)
+
+    goalid = models.IntegerField(db_column='GoalID', primary_key=True)  
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')  
+    profileid = models.ForeignKey('Profile', models.DO_NOTHING, db_column='ProfileID')  
+    content = models.CharField(db_column='Content', max_length=255, blank=True, null=True)  
+    dateposted = models.DateField(db_column='DatePosted', blank=True, null=True)   
+    frequency = models.CharField(db_column='Frequency', max_length=7, blank=True, null=True)   
+    score = models.BigIntegerField(db_column='Score', blank=True, null=True)   
+    privacysettings = models.CharField(db_column='PrivacySettings', max_length=11, blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Goal model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Goal'
 
 class Plant(models.Model):
     """
-    Represents user's progress on goals.
+    Represents a plant in the goal garden.
 
     Attributes:
-        goal (Goal): The goal associated with the plant.
-        profile (Profile): The profile associated with the plant.
-        streak_alive (bool): Indicates if the streak is alive or not.
-        streak_duration (int): The duration of the streak.
-        days_streak_dead (int): The number of days the streak is dead.
-        days_streak_kept_alive (int): The number of days the streak is kept alive.
-    """
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    streak_alive = models.BooleanField(default=True)
-    streak_duration = models.BigIntegerField()
-    days_streak_dead = models.BigIntegerField()
-    days_streak_kept_alive = models.BigIntegerField()
+        plantid (int): The ID of the plant (primary key).
+        goalid (Goal): The goal associated with the plant.
+        profileid (Profile): The profile associated with the plant.
+        streakalive (int): The number of days the streak is alive.
+        streakduration (int): The duration of the streak.
+        daysstreakdead (int): The number of days the streak is dead.
+        daysstreakkeptalive (int): The number of days the streak is kept alive.
 
+    Meta:
+        managed (bool): Indicates whether the model's database table is managed by Django.
+        db_table (str): The name of the database table associated with the model.
+    """
+    plantid = models.IntegerField(db_column='PlantID', primary_key=True)   
+    goalid = models.ForeignKey(Goal, models.DO_NOTHING, db_column='GoalID')   
+    profileid = models.ForeignKey('Profile', models.DO_NOTHING, db_column='ProfileID')   
+    streakalive = models.IntegerField(db_column='StreakAlive', blank=True, null=True)   
+    streakduration = models.BigIntegerField(db_column='StreakDuration', blank=True, null=True)   
+    daysstreakdead = models.BigIntegerField(db_column='DaysStreakDead', blank=True, null=True)   
+    daysstreakkeptalive = models.BigIntegerField(db_column='DaysStreakKeptAlive', blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Plant model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Plant'
+ 
 class Comment(models.Model):
     """
-    Represents comments made on goals.
+    Represents a comment made by a user on a goal.
 
     Attributes:
-        user (User): The user who made the comment.
-        goal (Goal): The goal the comment is associated with.
+        commentid (int): The unique identifier for the comment.
+        userid (ForeignKey): The foreign key to the User model representing the user who made the comment.
+        goalid (ForeignKey): The foreign key to the Goal model representing the goal on which the comment was made.
         content (str): The content of the comment.
-        timestamp (DateTimeField): The timestamp when the comment was made.
+        timestamp (datetime): The timestamp when the comment was made.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
-    content = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    commentid = models.IntegerField(db_column='CommentID', primary_key=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')
+    goalid = models.ForeignKey('Goal', models.DO_NOTHING, db_column='GoalID')
+    content = models.CharField(db_column='Content', max_length=255, blank=True, null=True)
+    timestamp = models.DateTimeField(db_column='Timestamp', blank=True, null=True)  
 
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Comment model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Comment'
+                     
 class Like(models.Model):
     """
-    Represents likes on goals.
-
+    Model representing a like on a goal by a user.
+    
     Attributes:
-        goal (Goal): The goal the like is associated with.
-        user (User): The user who made the like.
-        timestamp (DateTimeField): The timestamp when the like was made.
+        likeid (int): The unique identifier for the like.
+        goalid (Goal): The goal that was liked.
+        userid (User): The user who liked the goal.
+        timestamp (datetime): The timestamp when the like was created.
     """
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    likeid = models.IntegerField(db_column='LikeID', primary_key=True)   
+    goalid = models.ForeignKey(Goal, models.DO_NOTHING, db_column='GoalID')   
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')   
+    timestamp = models.DateTimeField(db_column='Timestamp', blank=True, null=True)   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Like model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Like'
 
 class Media(models.Model):
     """
-    Represents media content associated with goals.
-
+    Model representing media files associated with a goal in the application.
+    
     Attributes:
-        goal (Goal): The goal associated with the media.
-        user (User): The user who uploaded the media.
-        content (BinaryField): The content of the media.
-        date_uploaded (DateField): The date when the media was uploaded.
-        privacy_settings (str): The privacy settings of the media.
+        mediaid (int): The unique identifier for the media file.
+        goalid (Goal): The foreign key to the associated goal.
+        content (str): The content of the media file.
+        dateuploaded (date): The date when the media file was uploaded.
+        privacysettings (str): The privacy settings for the media file.
+        userid (User): The foreign key to the user who uploaded the media file.
     """
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.BinaryField()
-    date_uploaded = models.DateField(auto_now_add=True)
-    privacy_settings = models.CharField(max_length=255, choices=PRIVACY)
+    mediaid = models.IntegerField(db_column='MediaID', primary_key=True)   
+    goalid = models.ForeignKey(Goal, models.DO_NOTHING, db_column='GoalID')   
+    content = models.TextField(db_column='Content', blank=True, null=True)   
+    dateuploaded = models.DateField(db_column='DateUploaded', blank=True, null=True)   
+    privacysettings = models.CharField(db_column='PrivacySettings', max_length=11, blank=True, null=True)   
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='UserID')   
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the media object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the Media model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'Media'   
+
+'''__note__
+    * The classes/subclasses below are generated by Django and are not part of the original model.
+    * They are included here for reference only.
+'''
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=150)
+    
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the AuthGroup model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        The Meta class provides additional options for the model.
+
+        Attributes:
+            managed (bool): Indicates whether the table is managed by Django's database migrations.
+            db_table (str): The name of the database table for the model.
+            unique_together (tuple): A tuple of field names that should be unique together.
+        """
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        The Meta class provides additional options for the model.
+
+        Attributes:
+            managed (bool): Indicates whether the table is managed by Django's database migrations.
+            db_table (str): The name of the database table for the model.
+            unique_together (tuple): A tuple of field names that should be unique together.
+        """
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the AuthUser model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+
+    class Meta:
+        """
+        The Meta class provides additional options for the model.
+
+        Attributes:
+            managed (bool): Indicates whether the table is managed by Django's database migrations.
+            db_table (str): The name of the database table for the model.
+            unique_together (tuple): A tuple of field names that should be unique together.
+        """
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+
+    class Meta:
+        """
+        The Meta class provides additional options for the model.
+
+        Attributes:
+            managed (bool): Indicates whether the table is managed by Django's database migrations.
+            db_table (str): The name of the database table for the model.
+            unique_together (tuple): A tuple of field names that should be unique together.
+        """
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+
+    class Meta:
+        """
+        Meta class for the DjangoAdminLog model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+
+    class Meta:
+        """
+        The Meta class provides additional options for the model.
+
+        Attributes:
+            managed (bool): Indicates whether the table is managed by Django's database migrations.
+            db_table (str): The name of the database table for the model.
+            unique_together (tuple): A tuple of field names that should be unique together.
+        """
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+class DjangoMigrations(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the DjangoMigrations model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user object, which is just the class name.
+        
+        Returns:
+            str: The class name.
+        """
+        return self.__class__.__name__
+    
+    class Meta:
+        """
+        Meta class for the DjangoSession model.
+        
+        Attributes:
+            managed (bool): Indicates whether the model's database table is managed by Django.
+            db_table (str): The name of the database table associated with the model.
+        """
+        managed = False
+        db_table = 'django_session'
