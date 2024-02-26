@@ -24,6 +24,9 @@ from .models import (
     DjangoSession,
 )
 
+'''__note__:
+    - Register all models to the admin site
+'''
 admin.site.register(User)
 admin.site.register(Profile)
 admin.site.register(Group)
