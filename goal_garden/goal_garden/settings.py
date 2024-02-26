@@ -40,9 +40,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET_KEY__
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jbalkovec']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jbalkovec', 'http://127.0.0.1:8000/']
 
 
 # Application definition
@@ -72,7 +72,7 @@ ROOT_URLCONF = "goal_garden.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'myapp', 'templates')],  # To find the templates
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
