@@ -1,0 +1,411 @@
+<!--
+    Name: database.html
+    Use: This file displays the database and the tables in the database
+
+    DB Structure:
+        User:
+        - UserID: INT
+        - Username: VARCHAR(255)
+        - Password: VARCHAR(255)
+        - Email: VARCHAR(255)
+        - PhoneNumber: VARCHAR(255)
+        - DateOfBirth: DATE
+
+        Profile:
+        - ProfileID: INT
+        - UserID: INT
+        - Bio: VARCHAR(255)
+        - Education: VARCHAR(255)
+        - Job: VARCHAR(255)
+        - Interests: VARCHAR(255)
+        - PrivacySettings: ENUM('Public', 'Private', 'Brand', 'Athlete', 'FriendsOnly')
+        - ProfilePicture: BLOB
+        - CoverPhoto: BLOB
+        - JoinDate: DATE
+        - LastActive: DATETIME
+
+        Group:
+        - GroupID: INT
+        - GroupName: VARCHAR(255)
+        - Description: VARCHAR(255)
+        - MemberCount: BIGINT
+        - CreationDate: DATE
+
+        GroupUser:
+        - GroupUserID: INT
+        - UserID: INT
+        - GroupID: INT
+
+        Message:
+        - MessageID: INT
+        - UserIDSender: INT
+        - UserIDReceiver: INT
+        - Content: VARCHAR(255)
+        - Timestamp: DATETIME
+        - Status: ENUM('sent', 'delivered', 'read')
+
+        Goal:
+        - GoalID: INT
+        - UserID: INT
+        - ProfileID: INT
+        - Content: VARCHAR(255)
+        - DatePosted: DATE
+        - Frequency: ENUM('daily', 'weekly', 'monthly', 'annually')
+        - Score: BIGINT
+        - PrivacySettings: ENUM('Public', 'Private', 'Brand', 'Athlete', 'FriendsOnly')
+
+        Plant:
+        - PlantID: INT
+        - GoalID: INT
+        - ProfileID: INT
+        - StreakAlive: BOOLEAN
+        - StreakDuration: BIGINT
+        - DaysStreakDead: BIGINT
+        - DaysStreakKeptAlive: BIGINT
+
+        Comment:
+        - CommentID: INT
+        - UserID: INT
+        - GoalID: INT
+        - Content: VARCHAR(255)
+        - Timestamp: TIMESTAMP
+
+        Like:
+        - LikeID: INT
+        - GoalID: INT
+        - UserID: INT
+        - Timestamp: TIMESTAMP
+
+        Media:
+        - MediaID: INT
+        - GoalID: INT
+        - UserID: INT
+        - Content: BLOB
+        - DateUploaded: DATE
+        - PrivacySettings: ENUM('Public', 'Private', 'Brand', 'Athlete', 'FriendsOnly')
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to My Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 4px solid #000;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            max-width: 200px; 
+            width: 100px; 
+            height: 50px; 
+            overflow: auto;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Database Entities</h1>
+        {% if users %}
+            <h2>Users:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Date of Birth</th>
+                    </tr>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.userid }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phonenumber }}</td>
+                        <td>{{ user.dateofbirth }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+        
+        {%if profiles%}
+            <h2>Profiles:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Profile ID</th>
+                        <th>User ID</th>
+                        <th>Bio</th>
+                        <th>Education</th>
+                        <th>Job</th>
+                        <th>Interests</th>
+                        <th>Privacy Settings</th>
+                        <th>Profile Picture</th>
+                        <th>Cover Photo</th>
+                        <th>Join Date</th>
+                        <th>Last Active</th>
+                    </tr>
+                    {% for profile in profiles %}
+                    <tr>
+                        <td>{{ profile.profileid }}</td>
+                        <td>{{ profile.userid }}</td>
+                        <td>{{ profile.bio }}</td>
+                        <td>{{ profile.education }}</td>
+                        <td>{{ profile.job }}</td>
+                        <td>{{ profile.interests }}</td>
+                        <td>{{ profile.privacysettings }}</td>
+                        <td>{{ profile.profilepicture }}</td>
+                        <td>{{ profile.coverphoto }}</td>
+                        <td>{{ profile.joindate }}</td>
+                        <td>{{ profile.lastactive }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        {% if groups %}
+        <h2>Groups:</h2>
+        <div class="table-container">
+            <table>
+                    <tr>
+                        <th>Group ID</th>
+                        <th>GroupName</th>
+                        <th>Description</th>
+                        <th>MemberCount</th>
+                        <th>CreationDate</th>
+                    </tr>
+                    {% for group in groups %}
+                    <tr>
+                        <td>{{ group.groupid }}</td>
+                        <td>{{ group.groupname }}</td>
+                        <td>{{ group.description }}</td>
+                        <td>{{ group.membercount }}</td>
+                        <td>{{ group.creationdate }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        {% if groupuser %}
+            <h2>Group Users:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Group User ID</th>
+                        <th>User ID</th>
+                        <th>Group ID</th>
+                    </tr>
+                    {% for groupuser in groupusers %}
+                    <tr>
+                        <td>{{ groupuser.groupuserid }}</td>
+                        <td>{{ groupuser.userid }}</td>
+                        <td>{{ groupuser.groupid }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+        
+        {% if messages %}
+            <h2>Messages:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Message ID</th>
+                        <th>User ID Sender</th>
+                        <th>User ID Receiver</th>
+                        <th>Content</th>
+                        <th>Timestamp</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for message in messages %}
+                    <tr>
+                        <td>{{ message.messageid }}</td>
+                        <td>{{ message.useridsender }}</td>
+                        <td>{{ message.useridreceiver }}</td>
+                        <td>{{ message.content }}</td>
+                        <td>{{ message.timestamp }}</td>
+                        <td>{{ message.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+        
+        {% if goals %}
+            <h2>Goals:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Goal ID</th>
+                        <th>User ID</th>
+                        <th>Profile ID</th>
+                        <th>Content</th>
+                        <th>Date Posted</th>
+                        <th>Frequency</th>
+                        <th>Score</th>
+                        <th>Privacy Settings</th>
+                    </tr>
+                    {% for goal in goals %}
+                    <tr>
+                        <td>{{ goal.goalid }}</td>
+                        <td>{{ goal.userid }}</td>
+                        <td>{{ goal.profileid }}</td>
+                        <td>{{ goal.content }}</td>
+                        <td>{{ goal.dateposted }}</td>
+                        <td>{{ goal.frequency }}</td>
+                        <td>{{ goal.score }}</td>
+                        <td>{{ goal.privacysettings }}</td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+        {% endif %}
+
+        {%if plants%}
+            <h2>Plants:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Plant ID</th>
+                        <th>Goal ID</th>
+                        <th>Profile ID</th>
+                        <th>Streak Alive</th>
+                        <th>Streak Duration</th>
+                        <th>Days Streak Dead</th>
+                        <th>Days Streak Kept Alive</th>
+                    </tr>
+                    {% for plant in plants %}
+                    <tr>
+                        <td>{{ plant.plantid }}</td>
+                        <td>{{ plant.goalid }}</td>
+                        <td>{{ plant.profileid }}</td>
+                        <td>{{ plant.streakalive }}</td>
+                        <td>{{ plant.streakduration }}</td>
+                        <td>{{ plant.daysstreakdead }}</td>
+                        <td>{{ plant.daysstreakkeptalive }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        {% endif %}
+
+        {%if comments %}
+            <h2>Comments:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Comment ID</th>
+                        <th>User ID</th>
+                        <th>Goal ID</th>
+                        <th>Content</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.commentid }}</td>
+                        <td>{{ comment.userid }}</td>
+                        <td>{{ comment.goalid }}</td>
+                        <td>{{ comment.content }}</td>
+                        <td>{{ comment.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        {%if likes %}
+            <h2>Likes:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Like ID</th>
+                        <th>Goal ID</th>
+                        <th>User ID</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    {% for like in likes %}
+                    <tr>
+                        <td>{{ like.likeid }}</td>
+                        <td>{{ like.goalid }}</td>
+                        <td>{{ like.userid }}</td>
+                        <td>{{ like.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        {%if media %}
+            <h2>Media:</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Media ID</th>
+                        <th>Goal ID</th>
+                        <th>User ID</th>
+                        <th>Content</th>
+                        <th>Date Uploaded</th>
+                        <th>Privacy Settings</th>
+                    </tr>
+                    {% for medium in media %}
+                    <tr>
+                        <td>{{ medium.mediaid }}</td>
+                        <td>{{ medium.goalid }}</td>
+                        <td>{{ medium.userid }}</td>
+                        <td>{{ medium.content }}</td>
+                        <td>{{ medium.dateuploaded }}</td>
+                        <td>{{ medium.privacysettings }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+
+        <p>This should be only shown when user privileges are set to <code>admin</code></p>
+    </div>
+</body>
+</html>
