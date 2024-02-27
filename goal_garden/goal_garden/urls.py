@@ -21,6 +21,11 @@ from myapp import views
 admin.autodiscover()
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('', views.index, name='index'),
+    path("", views.index, name='index'),
+    path("admin/", admin.site.urls, name="admin"),
+    path('index/', views.index, name='index'),
+    path("database/", views.database, name="database"),
+    path("403/", views.error_403, name="403_error"),
+    path("404/", views.error_404, name="404_error"),
+    path("500/", views.error_500, name="500_error"),
 ]
