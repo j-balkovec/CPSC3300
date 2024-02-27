@@ -7,43 +7,97 @@
                  it is the first page that the user will see when they visit
 
 -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My Website</title>
+    <title>Welcome to the Goal Garden</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 50px auto;
             padding: 20px;
             background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
+            color: #4CAF50;
             margin-bottom: 20px;
         }
         p {
+            text-align: left;
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            font-family: monospace;
+        }
+        .p2 {
             text-align: center;
+            color: #555;
+            font-size: 1.0rem;
+            line-height: 1.6;
+            font-family: monospace;
+            margin-top: 20px;
+        }
+        .highlight {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .link {
+            color: #007bff;
+            text-decoration: underline;
+        }
+        .team {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .team-member {
+            display: inline-block;
+            margin: 0 20px;
+        }
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            margin-top: 10px; 
+            vertical-align: middle;
+        }
+        .team-member p {
+            margin: 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>SQL Bullshit</h1>
-        <p>This is a simple example of an index page in Django.</p>
-        <p>You can customize this page by editing the <code>index.html</code> file in your app's <code>templates</code> directory.</p>
+        <h1><code>Welcome to Goal Garden</code></h1>
+        <p>The Goal Garden project revolves around achieving personal goals, fostering growth, and encouraging collaboration. Upon creating a profile, each user is assigned a plant for every goal they set. Progress towards these goals directly influences the growth of their respective plants. Additionally, the application facilitates collaborative efforts by enabling group goals, where all participants share a common plant. Contributions towards these collective objectives contribute to the plant's development as well. Furthermore, members can engage in group discussions through a built-in group chat feature. The collective progress of all plants is showcased on a virtual field, with tags identifying the associated goals for each plant.</p>
+        <p class="p2">To learn more about Goal Garden, check out the <a href="https://github.com/j-balkovec/CPSC3300" class="link">codebase</a>.</p>
+        
+        <div class="team">
+            <div class="team-member">
+                <img src="https://goseattleu.com/images/2023/9/25/48-Curry_5Y4A5745.jpg?width=300" alt="Colin">
+                <p>Colin Curry</p>
+            </div>
+            <div class="team-member">
+                <img src="https://avatars.githubusercontent.com/u/116223977?v=4" alt="Jakob">
+                <p>Jakob Balkovec</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
