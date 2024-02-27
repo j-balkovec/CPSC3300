@@ -48,13 +48,14 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'jbalkovec', 'http://127.0.0.1:8000/'
 # Application definition
 
 INSTALLED_APPS = [
-    "goal_garden",
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.admin",
+    #"goal_garden",
+    "myapp"
 ]
 
 MIDDLEWARE = [
