@@ -84,6 +84,7 @@
         - DateUploaded: DATE
         - PrivacySettings: ENUM('Public', 'Private', 'Brand', 'Athlete', 'FriendsOnly')
 
+        Only to be used during development and testing
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -200,7 +201,7 @@
                         <td>{{ profile.profilepicture }}</td>
                         <td>{{ profile.coverphoto }}</td>
                         <td>{{ profile.joindate }}</td>
-                        <td>{{ profile.lastactive }}</td>
+                        <td>{{ profile.last_active }}</td>
                     </tr>
                     {% endfor %}
                 </table>
