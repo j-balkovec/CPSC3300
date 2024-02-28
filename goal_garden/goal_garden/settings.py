@@ -123,6 +123,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/login/user'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

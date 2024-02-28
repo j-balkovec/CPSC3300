@@ -24,8 +24,14 @@ urlpatterns = [
     path("", views.index, name='index'),
     path("admin/", admin.site.urls, name="admin"),
     path('index/', views.index, name='index'),
-    path("database/", views.database, name="database"),
-    path("403/", views.error_403, name="403_error"),
-    path("404/", views.error_404, name="404_error"),
-    path("500/", views.error_500, name="500_error"),
+    path("database/", views.database, name="database"), #to be deleted
+    path("403/", views.error_403, name="403_error", kwargs={'exception': Exception('Unauthorized access')}),
+    path("404/", views.error_404, name="404_error", kwargs={'exception': Exception('Page not found')}),
+    path("500/", views.error_500, name="500_error", kwargs={'exception': Exception('Server error')}),
+    path("user/", views.user, name="user"), #TBR
+    path("search/", views.search_profiles, name="search_profiles"),
+    path("login/", views.login_view, name='login'),
+    path("login/index/", views.index, name="index"),
+    path("login/user/", views.user, name="user"), #idk
+    path('user/', views.user, name='profile'),
 ]
