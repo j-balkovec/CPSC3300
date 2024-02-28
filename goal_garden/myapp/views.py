@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import login
+from django.db.models import Q
+from django.urls import reverse
+from django.template import RequestContext
 
 import os
 
@@ -27,6 +30,10 @@ from .models import (
     DjangoSession,
 )
 
+
+
+# TODO: fix 403, 404, 500 errors
+
 def yield_file_path(html_file_name: str) -> str:
     """_summary_
     Brief:
@@ -43,7 +50,12 @@ DATABASE_HTML = yield_file_path("database.html")
 INDEX_HTML = yield_file_path("index.html")
 HTML_404 = yield_file_path("404.html")
 HTML_500 = yield_file_path("500.html")
-HTML_403 = yield_file_path("admin.html")
+HTML_403 = yield_file_path("403.html")
+USER_HTML = yield_file_path("profile.html")
+SEARCH_HTML = yield_file_path("search.html")
+GOALS_HTML = yield_file_path("goals.html")
+SECURE_HTML = yield_file_path("secure.html")
+LOGIN_HTML = yield_file_path("login.html")
 
 def admin_only(view_func):
     """
@@ -113,7 +125,7 @@ def error_500(request, exception):
     return render(request, HTML_500, status=500)
 
 @admin_only
-def database(request):
+def database(request): #to be deleted
     """ 
     Brief:
         This function returns the database page 
@@ -181,3 +193,122 @@ def index(request):
         HttpResponse: the index page
     """
     return render(request, INDEX_HTML)
+
+def search_profiles(request):
+    """
+    Brief:
+        This function returns the search page
+    Args:
+        request (HttpRequest): the request object
+    
+    Returns:
+        HttpResponse: the search page
+        
+    Information to display:
+        User:
+        - Username: VARCHAR(255)
+        - Email: VARCHAR(255)
+        - DateOfBirth: DATE
+
+        Profile:
+        - Bio: VARCHAR(255)
+        - Education: VARCHAR(255)
+        - Job: VARCHAR(255)
+        - Interests: VARCHAR(255)
+        - PrivacySettings: ENUM('Public', 'Private', 'Brand', 'Athlete', 'FriendsOnly')
+        - ProfilePicture: BLOB
+        - CoverPhoto: BLOB
+        - JoinDate: DATE
+        - LastActive: DATETIME
+    """
+    search_results = {}
+    usernames = User.objects.values_list('username', flat=True) # For autocomplete
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query', '')
+        if search_query:
+            # Find users whose username or email matches the search query
+            matching_users = User.objects.filter(
+                Q(username__icontains=search_query) | Q(email__icontains=search_query)
+            )
+            if matching_users.exists():
+                for user in matching_users:
+                    # Access the profile associated with the user
+                    try:
+                        profile = Profile.objects.get(userid=user.userid)
+                        search_results[user.userid] = {
+                            'username': user.username,
+                            'email': user.email,
+                            'dateofbirth': user.dateofbirth,
+                            
+                            'bio': profile.bio,
+                            'education': profile.education,
+                            'job': profile.job,
+                            'interests': profile.interests,
+                            'profile_picture': profile.profilepicture.decode(),
+                            'cover_photo': profile.coverphoto.decode(),
+                            'join_date': profile.joindate,
+                            'last_active': profile.last_active,
+                            'privacy_settings': profile.privacysettings
+                        }
+                    except Profile.DoesNotExist:
+                        print("Profile not found for user with id:", user.userid)
+
+            else:
+                # No matching users found
+                return render(request, HTML_404, status=404)
+            
+    return render(request, 'search.html', {'search_results': search_results, 'usernames': usernames})
+
+def goals(request):
+    """ 
+    Brief:
+        This function returns the goals page
+    Args:
+        request (HttpRequest): the request object
+            
+    Returns:
+        HttpResponse: the goals page
+    """
+    
+    return render(request, GOALS_HTML)
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # Retrieve the hashed password from the database based on the username
+        try:
+            user = User.objects.get(username=username)
+            hashed_password = user.password  # Assuming 'password' field stores the hashed password
+            
+        except User.DoesNotExist:
+            return render(request, LOGIN_HTML, {'error': 'Invalid username or password'})
+
+        if password == hashed_password:
+            login(request, user)
+            if 'next' in request.POST:
+                return redirect(request.POST['next'])
+
+            #return redirect('user/') #TODO: redirect to profile
+            profile_url = reverse('profile')
+            return redirect(profile_url)
+        else:
+            # Authentication failed, display error message
+            return render(request, LOGIN_HTML, context_instance=RequestContext(request))
+    else:
+        return render(request, LOGIN_HTML)
+    
+@login_required
+def user(request):
+    """ 
+    Brief:
+        This function returns the user page
+    Args:
+        request (HttpRequest): the request object
+            
+    Returns:
+        HttpResponse: the user page
+    """
+    #redirects to here after successful login
+    logged_in_user = request.user
+    return render(request, USER_HTML, {'user': logged_in_user})
