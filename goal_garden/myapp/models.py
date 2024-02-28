@@ -9,6 +9,7 @@ Description: This file contains the database models for the Q_Project Milestone 
 
 """__imports__"""
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 
 """
 Defines choices for message status.
@@ -58,9 +59,7 @@ FREQUENCY = (
   ('yearly', 'Yearly'),
 )
 
-from django.db import models
-
-class User(models.Model):
+class User(AbstractBaseUser):
     """
     Represents a user in the system.
 
@@ -77,8 +76,9 @@ class User(models.Model):
     password = models.CharField(db_column='Password', max_length=255, blank=True, null=True)   
     email = models.CharField(db_column='Email', max_length=255, blank=True, null=True)   
     phonenumber = models.CharField(db_column='PhoneNumber', max_length=255, blank=True, null=True)   
-    dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)   
-
+    dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)  
+    last_login = models.DateTimeField(db_column='LastLogin', blank=True, null=True) 
+    
     def __str__(self) -> str:
         """
         Returns a string representation of the user object, which is just the class name.
@@ -96,7 +96,7 @@ class User(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'User'
         app_label = 'myapp'
 
@@ -128,7 +128,7 @@ class Profile(models.Model):
     profilepicture = models.TextField(db_column='ProfilePicture', blank=True, null=True)   
     coverphoto = models.TextField(db_column='CoverPhoto', blank=True, null=True)   
     joindate = models.DateField(db_column='JoinDate', blank=True, null=True)   
-    lastactive = models.DateTimeField(db_column='LastActive', blank=True, null=True)   
+    last_active = models.DateTimeField(db_column='LastActive', blank=True, null=True)   
 
     def __str__(self) -> str:
         """
@@ -147,7 +147,7 @@ class Profile(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Profile'
         app_label = 'myapp'
             
@@ -185,7 +185,7 @@ class Group(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Group'
         app_label = 'myapp'
 
@@ -219,7 +219,7 @@ class Groupuser(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'GroupUser'
         app_label = 'myapp'
 
@@ -259,7 +259,7 @@ class Message(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Message'
         app_label = 'myapp'
 
@@ -304,7 +304,7 @@ class Goal(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Goal'
         app_label = 'myapp'
 
@@ -350,7 +350,7 @@ class Plant(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Plant'
         app_label = 'myapp'
  
@@ -388,7 +388,7 @@ class Comment(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Comment'
         app_label = 'myapp'
                      
@@ -424,7 +424,7 @@ class Like(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Like'
         app_label = 'myapp'
 
@@ -464,7 +464,7 @@ class Media(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'Media'   
         app_label = 'myapp'
 
@@ -492,7 +492,7 @@ class AuthGroup(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'auth_group'
         app_label = 'myapp'
 
@@ -520,7 +520,7 @@ class AuthGroupPermissions(models.Model):
             db_table (str): The name of the database table for the model.
             unique_together (tuple): A tuple of field names that should be unique together.
         """
-        managed = False
+        managed = True
         db_table = 'auth_group_permissions'
         unique_together = (('group', 'permission'),)
         app_label = 'myapp'
@@ -549,7 +549,7 @@ class AuthPermission(models.Model):
             db_table (str): The name of the database table for the model.
             unique_together (tuple): A tuple of field names that should be unique together.
         """
-        managed = False
+        managed = True
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
         app_label = 'myapp'
@@ -584,7 +584,7 @@ class AuthUser(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'auth_user'
         app_label = 'myapp'
 
@@ -612,7 +612,7 @@ class AuthUserGroups(models.Model):
             db_table (str): The name of the database table for the model.
             unique_together (tuple): A tuple of field names that should be unique together.
         """
-        managed = False
+        managed = True
         db_table = 'auth_user_groups'
         unique_together = (('user', 'group'),)
         app_label = 'myapp'
@@ -641,7 +641,7 @@ class AuthUserUserPermissions(models.Model):
             db_table (str): The name of the database table for the model.
             unique_together (tuple): A tuple of field names that should be unique together.
         """
-        managed = False
+        managed = True
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
         app_label = 'myapp'
@@ -673,7 +673,7 @@ class DjangoAdminLog(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'django_admin_log'
         app_label = 'myapp'
 
@@ -700,7 +700,7 @@ class DjangoContentType(models.Model):
             db_table (str): The name of the database table for the model.
             unique_together (tuple): A tuple of field names that should be unique together.
         """
-        managed = False
+        managed = True
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
         app_label = 'myapp'
@@ -728,7 +728,7 @@ class DjangoMigrations(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'django_migrations'
         app_label = 'myapp'
 
@@ -755,6 +755,6 @@ class DjangoSession(models.Model):
             managed (bool): Indicates whether the model's database table is managed by Django.
             db_table (str): The name of the database table associated with the model.
         """
-        managed = False
+        managed = True
         db_table = 'django_session'
         app_label = 'myapp'
