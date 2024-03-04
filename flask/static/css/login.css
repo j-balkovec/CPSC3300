@@ -1,13 +1,16 @@
+
+/* static/css/login.css */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
-    background-image: linear-gradient(to bottom right, #8ad78c, #407557); /* Set the gradient colors */
+    background-image: linear-gradient(to bottom right, #8ad78c, #407557); 
 }
 .container {
     max-width: 400px;
-    margin: 180px auto; /* Adjust this margin-top value */
+    margin: 180px auto; 
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -32,12 +35,12 @@ input[type="password"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Added to include padding and border in width calculation */
+    box-sizing: border-box;
 }
 button {
     width: 100%;
     padding: 10px;
-    margin-top: 10px; /* Add margin to the top */
+    margin-top: 10px; 
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -47,21 +50,18 @@ button {
 button:hover {
     background-color: #45a049;
 }
-
 .loginbtn {
     width: 100%;
     padding: 10px;
-    margin-top: 10px; /* Add margin to the top */
+    margin-top: 10px; 
     background-color: #4CAF50;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
-
-  /* Style the search popup */
-  #searchPopup {
-    display: none; /* Hide the popup by default */
+#searchPopup {
+    display: none; 
     position: fixed; 
     z-index: 1; 
     left: 0;
@@ -69,41 +69,34 @@ button:hover {
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: rgba(0,0,0,0.4); /* Black background with opacity */
-  }
-  
-  #searchPopup .w3-modal-content {
+    background-color: rgba(0,0,0,0.4);
+}
+#searchPopup .w3-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 150%; /* Increase the width to 90% */
-    max-width: 800px; /* Increase the max-width if needed */
-  }
-  
-  /* Style the close button */
-  #searchPopup .w3-modal-content .w3-button {
+    width: 150%;
+    max-width: 800px;
+}
+#searchPopup .w3-modal-content .w3-button {
     position: absolute;
     top: 20px;
     right: 20px;
-  }
-  
-  /* Style the input and button */
-  #searchPopup input[type="text"],
-  #searchPopup button {
+}
+#searchPopup input[type="text"],
+#searchPopup button {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
     box-sizing: border-box;
-  }
-  
-  #searchPopup button {
+}
+#searchPopup button {
     background-color: #4CAF50;
     color: white;
     border: none;
-  }
-  
-  #searchPopup button:hover {
+}
+#searchPopup button:hover {
     background-color: #45a049;
-  }
+}
