@@ -13,9 +13,8 @@ __bugs__: None
 todo_list = {
     "TODAY": [
         "Add a new user",
-        "Fix username potentially (not a big deal)",
-        "Implement search",
         "Implement messaging"
+        "About page"
     ],
     "CURRENT": [
         'Implementing search"
@@ -168,6 +167,18 @@ def base():
     The rendered base.html template.
   """
   return render_template('base.html')
+
+
+
+@app.route('/about')
+def about():
+  """
+  Renders the about.html template.
+
+  Returns:
+    The rendered about.html template.
+  """
+  return render_template('about.html')
 
 
 
