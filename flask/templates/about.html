@@ -1,5 +1,5 @@
 
-<!-- templates/base.html -->
+<!-- templates/about.html -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +64,28 @@
   #searchPopup button:hover {
     background-color: #45a049;
   }
+
+  /* CSS for icon container */
+  .icon-container {
+      display: flex; /* Use flexbox for layout */
+      justify-content: center; /* Align icons horizontally in the center */
+      margin-bottom: 60px; /* Add margin between icons and other content */
+
+  }
+  
+  /* CSS for icons */
+  .icon {
+      width: 200px; /* Adjust width as needed */
+      height: 300px; /* Adjust height as needed */
+      margin: 0 10px; /* Add margin between icons */
+  }
+  
+  .icon img {
+      width: 100%; /* Make the image fill the container */
+      height: 100%; /* Make the image fill the container */
+      object-fit: cover; /* Maintain aspect ratio */
+      border-radius: 5px; /* Add border radius for rounded corners */
+  }
 </style>
 </head>
 <body>
@@ -100,15 +122,37 @@
   </div>
 </div>
 
-  <!-- Automatic Slideshow Images -->
-  <div class="mySlides w3-display-container w3-center">
-    <img src="https://static.homeguide.com/assets/images/content/homeguide-freshly-mowed-lawn-and-landscape-care.jpg" alt="Lawn">
-  </div>
-
+  <!-- The Band Section -->
   <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
     <h2 class="w3-wide">GOAL GARDEN</h2>
     <p class="w3-opacity"><i>Get Better Everyday</i></p>
-    <p class="w3-justify"><p>The Goal Garden project revolves around achieving personal goals, fostering growth, and encouraging collaboration. Upon creating a profile, each user is assigned a plant for every goal they set. Progress towards these goals directly influences the growth of their respective plants. Additionally, the application facilitates collaborative efforts by enabling group goals, where all participants share a common plant. Contributions towards these collective objectives contribute to the plant's development as well. Furthermore, members can engage in group discussions through a built-in group chat feature. The collective progress of all plants is showcased on a virtual field, with tags identifying the associated goals for each plant.</p>
+    <p class="w3-justify"><p>Welcome to the Goal Garden project! Here at Goal Garden, we are dedicated to helping you achieve your personal goals, fostering growth, and encouraging collaboration among our users.
+
+      The Goal Garden project was inspired by a simple yet profound idea: just as a garden requires nurturing and care to thrive, so do our personal goals.<br><br> We realized that visualizing our goals as plants and watching them grow with our progress could provide a powerful motivational tool. This led to the creation of Goal Garden, where users can cultivate their aspirations in a virtual garden setting.
+      
+      The Goal Garden project revolves around achieving personal goals, fostering growth, and encouraging collaboration. Upon creating a profile, each user is assigned a plant for every goal they set. Progress towards these goals directly influences the growth of their respective plants. <br><br>Additionally, the application facilitates collaborative efforts by enabling group goals, where all participants share a common plant. Contributions towards these collective objectives contribute to the plant's development as well. Furthermore, members can engage in group discussions through a built-in group chat feature. The collective progress of all plants is showcased on a virtual field, with tags identifying the associated goals for each plant.
+      
+      We believe that by visualizing your goals as plants and watching them grow with your progress, you'll feel more motivated and empowered to achieve them. Whether you're working towards personal goals or collaborating with others on group objectives, Goal Garden provides a nurturing environment for your aspirations to flourish.
+      
+      Thank you for joining us on this journey towards personal growth and achievement. Together, let's cultivate success in the Goal Garden!
+      
+      <br>
+      <br>
+      <strong>Authors: Jakob Balkovec, Colin Curry </strong><br><br>
+
+      <!--<strong>Technologies used</strong>: Python, Flask, HTML, CSS, JavaScript, SQL, Heroku, Liquid</p>-->
+  </div>
+  
+  <div class="icon-container">
+    <div class="icon">
+      <img src="{{ url_for('static', filename='img/jakob.JPG') }}" alt="Jakob Icon">
+      <p>Jakob</p>
+    </div>
+
+    <div class="icon">
+        <img src="{{ url_for('static', filename='img/colin.jpeg') }}" alt="Colin Icon">
+        <p>Colin</p>
+    </div>
   </div>
 
 <!-- End Page Content -->
