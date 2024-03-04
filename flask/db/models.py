@@ -89,8 +89,6 @@ class User(db.Model, UserMixin):
     dateofbirth = db.Column(db.Date)
     
     profiles = db.relationship('Profile', backref='user', lazy=True, uselist=False)
-    #messages_sent = db.relationship('Message', foreign_keys='Message.useridsender', backref='sender', lazy=True)
-    #messages_received = db.relationship('Message', foreign_keys='Message.useridreceiver', backref='receiver', lazy=True)
     goals = db.relationship('Goal', backref='user', lazy=True)
     comments = db.relationship('Comment', backref='user', lazy=True)
     likes = db.relationship('Like', backref='user', lazy=True)
@@ -162,9 +160,6 @@ class Profile(db.Model):
     lastactive = db.Column(db.DateTime)
 
     user_profile = db.relationship("User", backref="profile")
-    #groups = db.relationship('GroupUser', backref='profile', lazy=True)
-    #goals = db.relationship('Goal', backref='profile', lazy=True)
-    #plants = db.relationship('Plant', backref='profile', lazy=True)
 
     @classmethod
     def get_profile_by_userid(cls, userid):
@@ -210,7 +205,6 @@ class Group(db.Model):
     creationdate = db.Column(db.Date)
 
     User = db.relationship('GroupUser', backref='group', lazy=True)
-    #members = db.relationship("Profile", secondary="group_user", backref="groups")
      
     def __repr__(self):
         """
@@ -315,10 +309,6 @@ class Goal(db.Model):
     privacysettings = db.Column(db.String(11), nullable=True)
 
     user_goal = db.relationship('User', backref='goal', lazy=True)
-    #plants = db.relationship('Plant', backref='goal', lazy=True)
-    #comments = db.relationship('Comment', backref='goal', lazy=True)
-    #likes = db.relationship('Like', backref='goal', lazy=True)
-    #media = db.relationship('Media', backref='goal', lazy=True)
     
     def __repr__(self):
         """
