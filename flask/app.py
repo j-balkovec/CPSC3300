@@ -1,4 +1,15 @@
-"""
+"""__doc__
+__auth__: Jakob Balkovec
+__version__: 1.0
+__date__: 2024-03-03
+__status__: In Development
+__file__: app.py
+
+__desc__: Main file for the Flask application. This file will be used to run
+          the application and handle all the routes and views.
+
+__bugs__: None
+
 todo_list = {
     "TODAY": [
         "Add a new user",
@@ -17,6 +28,7 @@ todo_list = {
 }
 """
 
+"""__flask_imports__"""
 from flask import (Flask, 
                    render_template, 
                    request, 
@@ -26,23 +38,29 @@ from flask import (Flask,
                    jsonify,
                    session)
 
-import logging
+"""__logging_imports__"""
 from logging.config import dictConfig
 
+"""__flask_sqlalchemy_imports__"""
 from flask_sqlalchemy import SQLAlchemy
 
+"""__flask_login_imports__"""
 from flask_login import (LoginManager, 
                          UserMixin, 
                          login_user, 
                          current_user,
                          login_required)
 
+"""__secrets_imports__[local]"""
 from db.secrets import (DATABASES,
                         PASSWORD,
                         SECRET_KEY,
                         LOGGING)
 
+# Database URI
+# Construct the database URI using the database connection parameters
 DATABASE_URI = f"mysql://{DATABASES['default']['USER']}:{DATABASES['default']['PASSWORD']}@{DATABASES['default']['HOST']}:{DATABASES['default']['PORT']}/{DATABASES['default']['NAME']}"
+
 
 app = Flask(__name__, static_url_path='/static', template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
@@ -138,9 +156,6 @@ def user():
         'groups': Group.query_groups()
     }
     return render_template('user.html', profile_data=profile_data)
-    # Add groups
-
-from flask import redirect, url_for
 
 @app.route('/search', methods=['POST'])
 def search_users():
@@ -155,19 +170,9 @@ def search_users():
             'goals': Goal.query_goals(),
             'groups': Group.query_groups()
         }
-        print("search_results: ", search_results)
         return render_template('search_user.html', profile_data=search_results)
-        #return redirect(url_for('user.html', profile_data=search_results))
     else:
-      print("\n\n\nHERE\n\n\n")
       return jsonify([])  # Or return an appropriate message
-
-@app.route('/user_with_profile')
-def user_with_profile():
-  return render_template('user.html')
    
-
-
-
 if __name__ == '__main__':
     app.run(debug=True)
