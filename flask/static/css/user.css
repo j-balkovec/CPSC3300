@@ -1,0 +1,274 @@
+html {
+    background-image: linear-gradient(to bottom right, #8ad78c, #407557); /* Set the gradient colors */
+}
+.container  {
+  max-width: 100%;
+  margin-top: 0 auto;
+  font-family: monospace;
+  margin-top: 80px;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: monospace;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+    font-family: monospace;
+}
+button:hover {
+    background-color: #e4e4f4;
+}
+#searchResults {
+    margin-top: 20px;
+}
+h2 {
+    margin-bottom: 20px;
+}
+.profile {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-picture {
+  width: 300px;
+  height: 300px;
+  border-radius: 40px;
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  padding: 20px;
+  margin-left: 25px;
+  z-index: 0;
+  object-fit: cover;
+}
+
+.cover-photo-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Ensure the container takes up the full width */
+}
+
+.cover-photo {
+    width: 100%; /* Use percentage width to ensure responsiveness */
+    height: 300px; /* Allow the height to adjust automatically */
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.fullname {
+    position: absolute;
+    top: 220px;
+    right: 0px;
+    transform: translateX(-50%); /* Adjust to center */
+    font-size: 50px;
+    font-weight: bold;
+    color: #333;
+}
+
+.username {
+    position: absolute;
+    top: 300px;
+    right: 0px; 
+    transform: translateX(-50%); /* Adjust to center */
+    font-size: 24px;
+    font-weight: bold;
+    color: gray;
+    padding: 5px 10px; /* Add padding for better aesthetics */
+}
+
+.profile-info-wrapper {
+    position: relative;
+    z-index: -2; /* Ensure the profile info stays above the background image */
+    margin-left: 0px; /* Adjust the left margin */
+}
+
+.profile-info {
+    position: relative; /* Set position relative */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;  
+    margin-top: 50px;
+    background-color: #f9f9f9;
+    border-radius: 20px; /* Adjust border-radius as needed for rounded edges */
+}
+
+.profile-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(100% - 200px); /* Adjust the width to match the left margin of profile-info-wrapper */
+    background-color: #f9f9f9;
+    border-radius: 20px; /* Adjust border-radius as needed for rounded edges */
+    z-index: -1 !important; /* Ensure it stays behind other content */
+}
+
+.info-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.info-item strong {
+    display: block;
+    font-weight: bold;
+}
+
+.info-item:last-child {
+    border-bottom: solid; /*TODO add border: line*/
+}
+
+
+.group-header
+{
+    margin-top: 20px;
+    margin-left: 40px;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold; /* Add bold font weight */
+    background-color: #f0f0f0; /* Add background color */
+    padding: 10px 20px; /* Add padding for spacing */
+    border-radius: 8px; /* Add rounded corners */
+}
+
+.goal-header
+{
+    margin-top: 20px;
+    margin-left: 40px;
+    font-size: 24px;
+    margin-bottom: -40px;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold; /* Add bold font weight */
+    background-color: #f0f0f0; /* Add background color */
+    padding: 10px 20px; /* Add padding for spacing */
+    border-radius: 8px; /* Add rounded corners */
+    width: 120px;
+}
+
+.groups,
+.goals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-top: 20px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.groups li,
+.goals li {
+    flex: 1;
+    margin-top: 10px;
+    padding: 20px;
+    width: 1345px; 
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 18px;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adjust shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition for transform and box-shadow */
+    position: relative;
+    overflow: hidden; /* Add overflow hidden to hide pseudo-element overflow */
+}
+
+.groups li::before,
+.goals li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Adjust overlay color and opacity */
+    border-radius: 8px;
+    z-index: 1;
+    transition: opacity 0.3s ease; 
+    opacity: 0;
+}
+
+.groups li:hover::before,
+.goals li:hover::before {
+    opacity: 1;
+}
+
+.groups li:hover,
+.goals li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Adjust shadow */
+}
+
+  /* Style the search popup */
+  #searchPopup {
+    display: none; /* Hide the popup by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+  }
+  
+  #searchPopup .w3-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 150%; /* Increase the width to 90% */
+    max-width: 800px; /* Increase the max-width if needed */
+  }
+  
+  /* Style the close button */
+  #searchPopup .w3-modal-content .w3-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  /* Style the input and button */
+  #searchPopup input[type="text"],
+  #searchPopup button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+  }
+  
+  #searchPopup button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  #searchPopup button:hover {
+    background-color: #45a049;
+  }
+  

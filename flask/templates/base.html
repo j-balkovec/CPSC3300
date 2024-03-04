@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Goal Garden</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<style>
+  body {font-family: "Lato", sans-serif}
+  .mySlides {}
+
+  /* Style the search popup */
+  #searchPopup {
+    display: none; /* Hide the popup by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+  }
+  
+  #searchPopup .w3-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 150%; /* Increase the width to 90% */
+    max-width: 800px; /* Increase the max-width if needed */
+  }
+  
+  /* Style the close button */
+  #searchPopup .w3-modal-content .w3-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  /* Style the input and button */
+  #searchPopup input[type="text"],
+  #searchPopup button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+  }
+  
+  #searchPopup button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  #searchPopup button:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <!-- Pass the URL as an argument to the redirectTo function -->
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="redirectTo('#')" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <!-- Pass the corresponding URLs for other buttons -->
+    <a href="/login" class="w3-bar-item w3-button w3-padding-large" onclick="redirectTo('/login')">LOGIN</a>
+    <a href="/home" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/')">HOME</a>
+    <a href="/search" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/search')">SEARCH</a>
+    <a href="/message" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/message')">MESSAGE</a>
+    <a href="javascript:void(0)" onclick="openSearchPopup()" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+  </div>
+</div>
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <!-- Search Pop-up Window -->
+  <div id="searchPopup" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <header class="w3-container w3-teal w3-center w3-padding-32"> 
+        <span onclick="closeSearchPopup()" class="w3-button w3-teal w3-xlarge w3-display-topright">&times;</span>
+        <h2 class="w3-wide"><i class="fa fa-search w3-margin-right"></i>Search</h2>
+      </header>
+      <div class="w3-container">
+        <input type="text" id="searchQuery" placeholder="Search by username or email">
+        <button onclick="performSearch()">Search</button>
+        <div id="searchResults"></div> <!-- Display search results here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Automatic Slideshow Images -->
+  <div class="mySlides w3-display-container w3-center">
+    <img src="https://static.homeguide.com/assets/images/content/homeguide-freshly-mowed-lawn-and-landscape-care.jpg" alt="Lawn">
+  </div>
+
+  <!-- The Band Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h2 class="w3-wide">GOAL GARDEN</h2>
+    <p class="w3-opacity"><i>Get Better Everyday</i></p>
+    <p class="w3-justify"><p>The Goal Garden project revolves around achieving personal goals, fostering growth, and encouraging collaboration. Upon creating a profile, each user is assigned a plant for every goal they set. Progress towards these goals directly influences the growth of their respective plants. Additionally, the application facilitates collaborative efforts by enabling group goals, where all participants share a common plant. Contributions towards these collective objectives contribute to the plant's development as well. Furthermore, members can engage in group discussions through a built-in group chat feature. The collective progress of all plants is showcased on a virtual field, with tags identifying the associated goals for each plant.</p>
+  </div>
+
+  <!-- Ticket Modal -->
+  <div id="ticketModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <header class="w3-container w3-teal w3-center w3-padding-32"> 
+        <span onclick="document.getElementById('ticketModal').style.display='none'" 
+       class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
+        <h2 class="w3-wide"><i class="fa fa-suitcase w3-margin-right"></i>Tickets</h2>
+      </header>
+      <div class="w3-container">
+        <p><label><i class="fa fa-shopping-cart"></i> Tickets, $15 per person</label></p>
+        <input class="w3-input w3-border" type="text" placeholder="How many?">
+        <p><label><i class="fa fa-user"></i> Send To</label></p>
+        <input class="w3-input w3-border" type="text" placeholder="Enter email">
+        <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right">PAY <i class="fa fa-check"></i></button>
+        <button class="w3-button w3-red w3-section" onclick="document.getElementById('ticketModal').style.display='none'">Close <i class="fa fa-remove"></i></button>
+        <p class="w3-right">Need <a href="#" class="w3-text-blue">help?</a></p>
+      </div>
+    </div>
+  </div>
+
+  
+<!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+<script>
+
+</script>
+</body>
+</html>
