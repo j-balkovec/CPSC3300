@@ -84,6 +84,20 @@
 </head>
 <body>
     <div class="container">
+        
+        <!-- 
+            Style the buttons to make them look better 
+             * Class id = 'tab-buttons'
+        -->
+        <div id="tab-buttons">
+            <button onclick="redirectTo('/')">Home</button>
+            <button onclick="redirectTo('/login')">Login</button>
+            <button onclick="redirectTo('/search')">Search Profiles</button>
+            <button onclick="redirectTo('/database')">Database</button>
+            <button onclick="redirectTo('/about')">About</button>
+            <button onclick="redirectTo('/contact')">Contact</button>
+        </div>
+
         <h1><code>Welcome to Goal Garden</code></h1>
         <p>The Goal Garden project revolves around achieving personal goals, fostering growth, and encouraging collaboration. Upon creating a profile, each user is assigned a plant for every goal they set. Progress towards these goals directly influences the growth of their respective plants. Additionally, the application facilitates collaborative efforts by enabling group goals, where all participants share a common plant. Contributions towards these collective objectives contribute to the plant's development as well. Furthermore, members can engage in group discussions through a built-in group chat feature. The collective progress of all plants is showcased on a virtual field, with tags identifying the associated goals for each plant.</p>
         <p class="p2">To learn more about Goal Garden, check out the <a href="https://github.com/j-balkovec/CPSC3300" class="link">codebase</a>.</p>
@@ -99,5 +113,10 @@
             </div>
         </div>
     </div>
+    <script>
+        function redirectTo(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>

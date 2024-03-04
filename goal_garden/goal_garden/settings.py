@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/login/user'
+LOGIN_REDIRECT_URL = 'user'
 
 LOGGING = {
     'version': 1,
@@ -149,6 +149,8 @@ LOGGING = {
         },
     },
 }
+
+LOGIN_URL = 'login'
 
 logging.config.dictConfig(LOGGING)
 

@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from myapp import views
 
 admin.autodiscover()
@@ -28,10 +29,8 @@ urlpatterns = [
     path("403/", views.error_403, name="403_error", kwargs={'exception': Exception('Unauthorized access')}),
     path("404/", views.error_404, name="404_error", kwargs={'exception': Exception('Page not found')}),
     path("500/", views.error_500, name="500_error", kwargs={'exception': Exception('Server error')}),
-    path("user/", views.user, name="user"), #TBR
     path("search/", views.search_profiles, name="search_profiles"),
     path("login/", views.login_view, name='login'),
-    path("login/index/", views.index, name="index"),
-    path("login/user/", views.user, name="user"), #idk
-    path('user/', views.user, name='profile'),
+    path("user/", login_required(views.user), name="user"), #TBR doesn't rl;y change things
+    #path("user/", views.user, name="user"), #TBR
 ]

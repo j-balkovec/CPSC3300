@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.db.models import Q
 from django.urls import reverse
-from django.template import RequestContext
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib import messages
+
+#django.contrib.auth.hashers.make_password(password, salt=None, hasher='default')
 
 import os
 
@@ -30,10 +33,6 @@ from .models import (
     DjangoSession,
 )
 
-
-
-# TODO: fix 403, 404, 500 errors
-
 def yield_file_path(html_file_name: str) -> str:
     """_summary_
     Brief:
@@ -51,10 +50,8 @@ INDEX_HTML = yield_file_path("index.html")
 HTML_404 = yield_file_path("404.html")
 HTML_500 = yield_file_path("500.html")
 HTML_403 = yield_file_path("403.html")
-USER_HTML = yield_file_path("profile.html")
+USER_HTML = yield_file_path("user.html")
 SEARCH_HTML = yield_file_path("search.html")
-GOALS_HTML = yield_file_path("goals.html")
-SECURE_HTML = yield_file_path("secure.html")
 LOGIN_HTML = yield_file_path("login.html")
 
 def admin_only(view_func):
@@ -124,7 +121,6 @@ def error_500(request, exception):
     """
     return render(request, HTML_500, status=500)
 
-@admin_only
 def database(request): #to be deleted
     """ 
     Brief:
@@ -270,34 +266,164 @@ def goals(request):
         HttpResponse: the goals page
     """
     
-    return render(request, GOALS_HTML)
-
+    return render(request, '''GOALS_HTML''')
+    
 def login_view(request):
+    next_url = request.GET.get('next', '')  # Get the 'next' parameter from the query string
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if next_url:  # Redirect to the 'next' URL if it exists
+                return redirect(next_url)
+            else:
+                return redirect('user')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password', 'next': next_url})
+    else:
+        return render(request, 'login.html', {'next': next_url})  # Pass 'next' to the login page for redirect purposes
+
+def login_view5(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not username or not password:
+            messages.error(request, 'Please provide both username and password.')
+            return redirect('login')
+
+        try:
+            db_user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('login')
+        
+        db_password = db_user.password
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            next_url = request.POST.get('next', '')  # Get the next URL from the POST data
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect('user')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('login')
+
+    return render(request, LOGIN_HTML, {'error': messages.get_messages(request), 'next': request.GET.get('next', '')})
+
+
+# Change login when you get to creating new users
+def login_view4(request):
+    error = "\0" # Empty str to avoid error
+    hashed_password = "\0" # Empty str to avoid error
+    next_url = request.GET.get('next', '')  # Get the next URL from the query parameters
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        # Retrieve the hashed password from the database based on the username
+        next_url = request.POST.get('next', '')
+        
         try:
             user = User.objects.get(username=username)
-            hashed_password = user.password  # Assuming 'password' field stores the hashed password
-            
+            password = user.password 
+            user = authenticate(request, username=username, password=hashed_password)
+            print("DEBUG: ", user)
         except User.DoesNotExist:
-            return render(request, LOGIN_HTML, {'error': 'Invalid username or password'})
+            return render(request, LOGIN_HTML, {'error': 'User does not exist', 'next': next_url})
 
-        if password == hashed_password:
-            login(request, user)
-            if 'next' in request.POST:
-                return redirect(request.POST['next'])
-
-            #return redirect('user/') #TODO: redirect to profile
-            profile_url = reverse('profile')
-            return redirect(profile_url)
+        if user is not None:
+            login(request, user) 
+            if next_url:
+                return redirect(next_url)  # Redirect to the next URL
+            else:
+                return redirect('user')  # Redirect to profile page
+            
         else:
             # Authentication failed, display error message
-            return render(request, LOGIN_HTML, context_instance=RequestContext(request))
+            error = 'Invalid username or password'
+            return render(request, LOGIN_HTML, {'error': error, 'next': next_url})
     else:
-        return render(request, LOGIN_HTML)
-    
+        return render(request, LOGIN_HTML, {'error': error, 'next': next_url})
+
+def login_view2(request):
+    error = ""  # Empty str to avoid error
+    next_url = request.GET.get('next', '')  # Get the next URL from the query parameters
+
+    if request.method == 'POST':
+        print(request.POST)
+        
+        username = request.POST['username']
+        entered_password = request.POST['password']
+        next_url = request.POST.get('next', '')
+        
+        try:
+            user = User.objects.get(username=username)
+            if check_password(entered_password, user.password):
+                user = authenticate(request, username=username, password=entered_password)
+                print("DEBUG: AUTH successfull")
+                
+            if not check_password(entered_password, user.password):
+                raise User.DoesNotExist
+        except User.DoesNotExist:
+            return render(request, LOGIN_HTML, {'error': 'Invalid username or password', 'next': next_url})
+
+        login(request, user) 
+        if next_url:
+            return redirect(next_url)  # Redirect to the next URL
+        else:
+            return redirect('user')  # Redirect to profile page
+    else:
+        return render(request, LOGIN_HTML, {'error': error, 'next': next_url})
+
+def login_view3(request):
+    user = None
+    debug_data = {}
+    error = ""  # Empty str to avoid error
+    next_url = request.GET.get('next', '')  # Get the next URL from the query parameters
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        entered_password = request.POST['password']
+        next_url = request.POST.get('next', '')
+
+        try:
+            user = User.objects.get(username=username)
+            debug_data['database_password'] = user.password  # Include database password in debug data
+            if check_password(entered_password, user.password):
+                user = authenticate(request, username=username, password=entered_password)
+                debug_data['authentication_status'] = 'success'
+                if user is not None:
+                    login(request, user) 
+                    if next_url:
+                        return redirect(next_url)  # Redirect to the next URL
+                    else:
+                        return redirect('user')  # Redirect to profile page
+                else:
+                    error = 'User authentication failed'
+            else:
+                error = 'Invalid username or password'
+        except User.DoesNotExist:
+            error = 'Invalid username or password'
+
+        debug_data = {
+            'user': user,
+            'username': username,
+            'entered_password': entered_password,
+            'next_url': next_url
+        }
+                
+        debug_data['error'] = error  # Include error message in debug data
+        print("DEBUG DATA:", debug_data)
+
+    return render(request, LOGIN_HTML, {'error': error, 'next': next_url})
+
 @login_required
 def user(request):
     """ 
@@ -311,4 +437,6 @@ def user(request):
     """
     #redirects to here after successful login
     logged_in_user = request.user
+    print("DEBUG: logged_in_user:", logged_in_user)
+    print(f"DEBUG: user is None: {logged_in_user is None}")
     return render(request, USER_HTML, {'user': logged_in_user})
