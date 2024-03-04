@@ -1,7 +1,16 @@
+/**
+ * Redirects the user to the specified URL.
+ * @param {string} url - The URL to redirect to.
+ * @function redirectTo
+ */
 function redirectTo(url) {
   window.location.href = url;
 }
     
+/**
+ * Displays the full name of a user based on their username.
+ * @function displayFullName
+ */
 function displayFullName() {
   const usernameDiv = document.querySelector('.username');
   const usernameText = usernameDiv.textContent.trim();
@@ -29,20 +38,29 @@ function displayFullName() {
   fullNameElement.textContent = fullName;
 }
 
-function redirectTo(url) {
-  window.location.href = url;
-}
-
+/**
+ * Opens the search popup.
+ * @function openSearchPopup
+ */
 function openSearchPopup() {
   var searchPopup = document.getElementById('searchPopup');
   searchPopup.style.display = 'block';
 }
 
+/**
+ * Closes the search popup by hiding it.
+ * @function closeSearchPopup
+ */
 function closeSearchPopup() {
   var searchPopup = document.getElementById('searchPopup');
   searchPopup.style.display = 'none';
 }
 
+/**
+ * Performs a search using the provided search query.
+ * Makes an AJAX request to the Flask server and updates the search results on the page.
+ * @function performSearch
+ */
 function performSearch() {
   var searchQuery = document.getElementById("searchQuery").value;
 
@@ -60,10 +78,10 @@ function performSearch() {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return response.text(); // Assuming the response is HTML
+    return response.text();
   })
   .then(html => {
-    document.getElementById("searchResults").innerHTML = html; // Assuming you have a div with id "searchResults"
+    document.getElementById("searchResults").innerHTML = html; 
   })
   .catch(error => {
     console.error('Error:', error); // Log any errors
