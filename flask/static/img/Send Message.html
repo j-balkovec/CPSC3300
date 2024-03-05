@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/message.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/static/js/message.js"></script>
+    <script src="/static/js/script.js"></script>
+    <title>Send Message</title>
+</head>
+
+<body>
+    <div class="w3-top">
+        <div class="w3-bar w3-black w3-card">
+            <!-- Pass the URL as an argument to the redirectTo function -->
+            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+                href="javascript:void(0)" onclick="redirectTo('#')" title="Toggle Navigation Menu"><i
+                    class="fa fa-bars"></i></a>
+            <!-- Pass the corresponding URLs for other buttons -->
+            <a href="/login" class="w3-bar-item w3-button w3-padding-large" onclick="redirectTo('/login')">LOGIN</a>
+            <a href="/base" class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+                onclick="redirectTo('/')">HOME</a>
+            <a href="/about" class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+                onclick="redirectTo('/about')">ABOUT</a>
+            <a href="/message" class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+                onclick="redirectTo('/message')">MESSAGE</a>
+            <a href="javascript:void(0)" onclick="openSearchPopup()"
+                class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Send Message</h1>
+        <form method="POST">
+            <input id="csrf_token" name="csrf_token" type="hidden"
+                value="IjJiYTM3YzQzOTQyOTA2MjJmYWMyNDI4MjkwZDBiMzc4ZTlkZmFkODQi.ZebM1A.fN1nDYgHH4ulB1F6A2NtUEvHXpc">
+            <div class="form-group">
+                <label for="receiver">Receiver</label>
+                <input class="form-control" id="receiver" name="receiver" required type="text" value="">
+
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" id="content" name="content" required>
+</textarea>
+
+            </div>
+            <button type="submit" class="loginbtn">Send Message</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Received Messages</h2>
+        <ul class="messages-list">
+
+            <li class="message">
+                From: <strong>robertocurry</strong>
+                Hi, how are you?
+                <div class="message-timestamp" data-timestamp="2024-02-12 08:05:00"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                hey ncole
+                <div class="message-timestamp" data-timestamp="2024-03-04 18:47:31"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                self_test
+                <div class="message-timestamp" data-timestamp="2024-03-04 18:58:53"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>benjamin</strong>
+                sup
+                <div class="message-timestamp" data-timestamp="2024-03-04 19:03:15"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                sup
+                <div class="message-timestamp" data-timestamp="2024-03-04 19:45:15"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                hey ncole, how are you doing
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:22:09"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                mock1
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:27:18"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                mock2
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:33:13"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                mock3
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:37:00"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                wefoinw9oafjc
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:47:45"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                cwEFEQW
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:54:22"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                cwEFEQW
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:54:25"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                caweceqv
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:57:58"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                caeca
+                <div class="message-timestamp" data-timestamp="2024-03-04 20:59:45"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                asDad
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:18:12"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                asDad
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:18:14"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                hcuqwefhcwiqEF
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:43:18"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                hcuqwefhcwiqEF
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:44:37"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                qqqqqq
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:47:58"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                qqqqqq
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:48:52"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                qqqqqq
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:50:00"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                jiascdhwiefch
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:59:22"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                jiascdhwiefch
+                <div class="message-timestamp" data-timestamp="2024-03-04 21:59:49"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                AD
+                <div class="message-timestamp" data-timestamp="2024-03-04 22:05:17"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                qwertyi
+                <div class="message-timestamp" data-timestamp="2024-03-04 22:08:27"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                dffffffff
+                <div class="message-timestamp" data-timestamp="2024-03-04 22:08:58"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                awDqwedf
+                <div class="message-timestamp" data-timestamp="2024-03-04 22:44:52"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                Hey how&#39;s New York?
+                <div class="message-timestamp" data-timestamp="2024-03-04 23:04:28"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                Hey how&#39;s New York?
+                <div class="message-timestamp" data-timestamp="2024-03-04 23:04:30"></div>
+            </li>
+
+            <li class="message">
+                From: <strong>ncole</strong>
+                heyyy
+                <div class="message-timestamp" data-timestamp="2024-03-04 23:27:07"></div>
+            </li>
+
+        </ul>
+    </div>
+
+</body>
+
+</html>
+
+<!--
+Style it better
+
+Clear input after message sent
+-->
