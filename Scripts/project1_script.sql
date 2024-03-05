@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS `User` (
     `Password` VARCHAR(255),
     `Email` VARCHAR(255) UNIQUE,
     `PhoneNumber` VARCHAR(255) UNIQUE,       
-    `DateOfBirth` DATE
+    `DateOfBirth` DATE,
+    `LastLogin` DATETIME
 );
 
 /**
@@ -160,7 +161,6 @@ CREATE TABLE IF NOT EXISTS `Media` (
 */
 INSERT INTO `User` (`UserID`, `Username`, `Password`, `Email`, `PhoneNumber`, `DateOfBirth`)
 VALUES 
-(1, 'ncole', '$2b$12$xqRuTccHGaAbvqLX2yeuGeGXXTHUD96KNCaACzxq/x6l6N/bUI36a', 'ncole@example.net', '212-282-7306', '1990-01-01'),
 (2, 'robertocurry', '$2b$12$U6nLlr2u2bq6ey285kKE/umMMW0dM4vwsKzVpHOhqdzWnetEMEVQy', 'robertocurry@example.org', '527-958-9099x74074', '1985-03-15'),
 (3, 'johnsoneric', '$2b$12$1NtB1L7Cx0K/K6126byRzeysIgD7UgXIugkGThRd/eQqLE//m6Kjy', 'johnsoneric@example.com', '001-648-919-3759x25086', '1992-07-20'),
 (4, 'kathleen22', '$2b$12$mwsL.oRD2Vorj7re.xQNFe9/nANnqrKVzRG6zgMGPdxzdg7EAWQnq', 'kathleen22@example.org', '+1-635-592-2912x588', '1988-09-10'),
@@ -189,6 +189,14 @@ VALUES
 (9, 9, 'Praesent blandit dolor sed nunc venenatis gravida.', 'Bachelor of Science in Mechanical Engineering', 'Mechanical Engineer', 'DIY Projects, Robotics, Automotive', 'Athlete', NULL, NULL, '2023-09-19', '2024-02-13 01:05:00'),
 (10, 10, 'Cras mattis consectetur purus sit amet fermentum.', 'Bachelor of Arts in Sociology', 'Social Worker', 'Volunteering, Community Outreach, Social Justice', 'Private', NULL, NULL, '2023-10-07', '2024-02-13 03:20:00');
 
+UPDATE `Profile` SET
+    `ProfilePicture` = 'https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150503821.jpg?size=626&ext=jpg'
+WHERE `ProfileID` = 10;
+
+-- https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150517168.jpg?size=626&ext=jpg BLACK DUDE
+-- https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150503821.jpg?size=626&ext=jpg WHITE DUDE
+-- https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150517171.jpg?size=626&ext=jpg MEXICAN DUDE
+-- https://img.freepik.com/free-vector/hand-drawn-side-profile-cartoon-illustration_23-2150503834.jpg?size=626&ext=jpg FEMALE
 /**
 * @table: Group
 * @brief: Data accquired with the help of the 'faker' and 'bcrypt' libraries in Python
