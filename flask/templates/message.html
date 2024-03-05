@@ -65,6 +65,20 @@
         >
 
         <a
+          href="/query"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/query')"
+          >QUERIES</a
+        >
+
+        <a
+          href="/ad_hoc"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/ad_hoc')"
+          >AD HOC QUERIES</a
+        >
+
+        <a
           href="javascript:void(0)"
           onclick="openSearchPopup()"
           class="w3-padding-large w3-hover-red w3-hide-small w3-right"
@@ -74,7 +88,7 @@
     </div>
 
     <div class="container">
-      <h1>Send Message</h1>
+      <h1 class="message-header">Send Message</h1>
       <form method="POST" id="messageForm">
         {{ form.hidden_tag() }}
         <div class="form-group">

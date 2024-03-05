@@ -1,0 +1,123 @@
+<!--templates/query_results-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Query Results</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/query.css') }}"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </head>
+  <body>
+    <div class="w3-top">
+      <div class="w3-bar w3-black w3-card">
+        <a
+          class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right"
+          href="javascript:void(0)"
+          onclick="redirectTo('#')"
+          title="Toggle Navigation Menu"
+          ><i class="fa fa-bars"></i
+        ></a>
+
+        <a
+          href="/login"
+          class="w3-bar-item w3-button w3-padding-large"
+          onclick="redirectTo('/login')"
+          >LOGIN</a
+        >
+        <a
+          href="/base"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/')"
+          >HOME</a
+        >
+        <a
+          href="/about"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/about')"
+          >ABOUT</a
+        >
+        <a
+          href="/message"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/message')"
+          >MESSAGE</a
+        >
+        <a
+          href="/query"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/query')"
+          >QUERIES</a
+        >
+
+        <a
+          href="/ad_hoc"
+          class="w3-bar-item w3-button w3-padding-large w3-hide-small"
+          onclick="redirectTo('/ad_hoc')"
+          >AD HOC QUERIES</a
+        >
+      </div>
+    </div>
+
+    <div class="json-container">
+      <h2 class="json-label">Query Results</h2>
+      <pre id="json-data" class="json-data">
+{{ json_data | tojson | safe }}</pre
+      >
+
+      <script>
+        // Parse and prettify JSON data
+        var jsonData = JSON.parse(
+          document.getElementById("json-data").textContent
+        );
+        var prettyJson = JSON.stringify(jsonData, null, 4);
+        document.getElementById("json-data").textContent = prettyJson;
+
+        // Add JSON sections to json-container
+        var jsonDataContainer = document.querySelector(".json-container");
+        var sections = Object.entries(jsonData);
+
+        sections.forEach(function (section) {
+          var sectionName = section[0];
+          var sectionData = section[1];
+          var sectionElement = document.createElement("div");
+          sectionElement.classList.add("json-section");
+          sectionElement.innerHTML = `<h3>${sectionName}</h3><pre>${JSON.stringify(
+            sectionData,
+            null,
+            4
+          )}</pre>`;
+          jsonDataContainer.appendChild(sectionElement);
+        });
+
+        // Blast away the Child
+        document
+          .querySelector(".json-container")
+          .removeChild(document.getElementById("json-data"));
+      </script>
+    </div>
+  </body>
+  <footer
+    class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge"
+  >
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </footer>
+</html>
