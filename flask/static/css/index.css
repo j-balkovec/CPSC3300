@@ -1,4 +1,3 @@
-
 /* static/css/error.css */
 
 body {
@@ -11,6 +10,7 @@ body {
   align-items: center;
   height: 100vh;
 }
+
 .container {
   max-width: 800px;
   margin: 50px auto;
@@ -19,11 +19,13 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
+
 h1 {
   text-align: center;
   color: #4CAF50;
   margin-bottom: 20px;
 }
+
 p {
   text-align: left;
   color: #555;
@@ -31,6 +33,7 @@ p {
   line-height: 1.6;
   font-family: monospace;
 }
+
 .p2 {
   text-align: center;
   color: #555;
@@ -39,59 +42,69 @@ p {
   font-family: monospace;
   margin-top: 20px;
 }
+
 .highlight {
   color: #4CAF50;
   font-weight: bold;
 }
+
 .link {
   color: #007bff;
   text-decoration: underline;
 }
+
 .team {
   text-align: center;
   margin-top: 30px;
 }
+
 .team-member {
   display: inline-block;
   margin: 0 20px;
 }
+
 .team-member img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 10px;
-  margin-top: 10px; 
+  margin-top: 10px;
   vertical-align: middle;
 }
+
 .team-member p {
   margin: 0;
 }
+
 #searchPopup {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.4);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
+
 #searchPopup .w3-modal-content {
   position: relative;
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 150%; 
-  max-width: 800px; 
+  width: 150%;
+  max-width: 800px;
 }
+
 #searchPopup .w3-modal-content .w3-button {
   position: absolute;
   top: 20px;
   right: 20px;
 }
+
 #searchPopup input[type="text"],
 #searchPopup button {
   width: 100%;
@@ -99,11 +112,13 @@ p {
   margin: 5px 0;
   box-sizing: border-box;
 }
+
 #searchPopup button {
   background-color: #4CAF50;
   color: white;
   border: none;
 }
+
 #searchPopup button:hover {
   background-color: #45a049;
 }

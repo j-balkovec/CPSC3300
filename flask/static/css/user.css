@@ -1,23 +1,26 @@
-
 /* static/css/user.css */
 
 html {
-    background-image: linear-gradient(to bottom right, #8ad78c, #407557); 
+    background-image: linear-gradient(to bottom right, #8ad78c, #407557);
 }
-.container  {
-  max-width: 100%;
-  margin-top: 0 auto;
-  font-family: monospace;
-  margin-top: 80px;
+
+.container {
+    max-width: 100%;
+    margin-top: 0 auto;
+    font-family: monospace;
+    margin-top: 80px;
 }
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
 }
+
 form {
     text-align: center;
     margin-bottom: 20px;
 }
+
 input[type="text"] {
     padding: 10px;
     font-size: 16px;
@@ -25,6 +28,7 @@ input[type="text"] {
     border-radius: 5px;
     font-family: monospace;
 }
+
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -34,15 +38,19 @@ button {
     cursor: pointer;
     font-family: monospace;
 }
+
 button:hover {
     background-color: #e4e4f4;
 }
+
 #searchResults {
     margin-top: 20px;
 }
+
 h2 {
     margin-bottom: 20px;
 }
+
 .profile {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -51,30 +59,34 @@ h2 {
     position: relative;
     overflow: hidden;
 }
+
 .profile-picture {
-  width: 300px;
-  height: 300px;
-  border-radius: 40px;
-  position: absolute;
-  top: 20px;
-  left: 10px;
-  padding: 20px;
-  margin-left: 25px;
-  z-index: 0;
-  object-fit: cover;
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    padding: 20px;
+    margin-left: 25px;
+    z-index: 0;
+    object-fit: cover;
 }
+
 .cover-photo-container {
     position: relative;
     display: inline-block;
-    width: 100%; 
+    width: 100%;
 }
+
 .cover-photo {
-    width: 100%; 
-    height: 300px; 
+    width: 100%;
+    height: 300px;
     object-fit: cover;
     border-radius: 10px;
     margin-top: 50px;
 }
+
 .fullname {
     position: absolute;
     top: 220px;
@@ -84,42 +96,47 @@ h2 {
     font-weight: bold;
     color: #333;
 }
+
 .username {
     position: absolute;
     top: 300px;
-    right: 0px; 
-    transform: translateX(-50%); 
+    right: 0px;
+    transform: translateX(-50%);
     font-size: 24px;
     font-weight: bold;
     color: gray;
     padding: 5px 10px;
 }
+
 .profile-info-wrapper {
     position: relative;
-    z-index: -2; 
-    margin-left: 0px; 
+    z-index: -2;
+    margin-left: 0px;
 }
+
 .profile-info {
-    position: relative; 
+    position: relative;
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;  
+    gap: 10px;
     margin-top: 50px;
     background-color: #f9f9f9;
-    border-radius: 20px; 
+    border-radius: 20px;
 }
+
 .profile-info::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
-    width: calc(100% - 200px); 
+    width: calc(100% - 200px);
     background-color: #f9f9f9;
-    border-radius: 20px; 
-    z-index: -1 !important; 
+    border-radius: 20px;
+    z-index: -1 !important;
 }
+
 .info-item {
     padding: 10px;
     border-bottom: 1px solid #ccc;
@@ -131,35 +148,36 @@ h2 {
 }
 
 .info-item:last-child {
-    border-bottom: solid; 
+    border-bottom: solid;
 }
-.group-header
-{
+
+.group-header {
     margin-top: 20px;
     margin-left: 40px;
     font-size: 24px;
     margin-bottom: 10px;
     color: #333;
     text-transform: uppercase;
-    font-weight: bold; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 8px; 
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 8px;
 }
-.goal-header
-{
+
+.goal-header {
     margin-top: 20px;
     margin-left: 40px;
     font-size: 24px;
     margin-bottom: -40px;
     color: #333;
     text-transform: uppercase;
-    font-weight: bold; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
     border-radius: 8px;
     width: 120px;
 }
+
 .groups,
 .goals {
     display: flex;
@@ -170,21 +188,23 @@ h2 {
     padding-left: 0;
     list-style-type: none;
 }
+
 .groups li,
 .goals li {
     flex: 1;
     margin-top: 10px;
     padding: 20px;
-    width: 1345px; 
+    width: 1345px;
     border-radius: 8px;
     background-color: #f9f9f9;
     font-size: 18px;
     text-align: left;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s, box-shadow 0.3s; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
     overflow: hidden;
 }
+
 .groups li::before,
 .goals li::before {
     content: '';
@@ -196,7 +216,7 @@ h2 {
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     z-index: 1;
-    transition: opacity 0.3s ease; 
+    transition: opacity 0.3s ease;
     opacity: 0;
 }
 
@@ -208,33 +228,37 @@ h2 {
 .groups li:hover,
 .goals li:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
+
 #searchPopup {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
+
 #searchPopup .w3-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 150%; 
-    max-width: 800px; 
+    width: 150%;
+    max-width: 800px;
 }
+
 #searchPopup .w3-modal-content .w3-button {
     position: absolute;
     top: 20px;
     right: 20px;
 }
+
 #searchPopup input[type="text"],
 #searchPopup button {
     width: 100%;
@@ -242,12 +266,13 @@ h2 {
     margin: 5px 0;
     box-sizing: border-box;
 }
+
 #searchPopup button {
     background-color: #4CAF50;
     color: white;
     border: none;
 }
+
 #searchPopup button:hover {
     background-color: #45a049;
 }
-  
