@@ -40,8 +40,24 @@ from flask import (Flask,
 """__logging_imports__"""
 from logging.config import dictConfig
 
+"""__flask_wtf_imports__"""
+from flask_wtf import FlaskForm
+
+"""__wtforms_imports__"""
+from wtforms import (StringField,
+                     TextAreaField)
+
+"""__wtforms_validators_imports__"""
+from wtforms.validators import DataRequired
+
+"""__datetime_imports__"""
+from datetime import datetime
+
 """__flask_sqlalchemy_imports__"""
 from flask_sqlalchemy import SQLAlchemy
+
+"""__sqlalchemy_imports__"""
+from sqlalchemy import inspect
 
 """__flask_login_imports__"""
 from flask_login import (LoginManager, 
@@ -97,6 +113,25 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+# ----------------- START SERIALIZE ----------------- #
+
+def serialize(model):
+  """
+  Serializes a model object into a dictionary.
+
+  Args:
+    model: The model object to be serialized.
+
+  Returns:
+    A dictionary containing the serialized attributes of the model object.
+  """
+  return {c.key: getattr(model, c.key)
+      for c in inspect(model).mapper.column_attrs}
+
+# ----------------- END SERIALIZE ----------------- #
+
+
+# ----------------- START ERROR HANDLING ----------------- #
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -112,6 +147,19 @@ def page_not_found(error):
   return render_template('404.html'), 404
 
 
+@app.errorhandler(405)
+def not_allowed(error):
+  """
+  Error handler for 405 method not allowed.
+  
+  Args:
+    error: The error object representing the 405 error.
+    
+  Returns:
+    A rendered template for the 405.html page with a 405 status code.
+  """
+  return render_template('405.html'), 405
+
 
 @app.errorhandler(500) 
 def internal_server_error(error):
@@ -125,7 +173,6 @@ def internal_server_error(error):
     A rendered template for the '500.html' error page with a 500 status code.
   """
   return render_template('500.html'), 500
-
 
 
 @app.errorhandler(403)
@@ -144,7 +191,10 @@ def forbidden(error):
   """
   return render_template('403.html'), 403
 
+# ----------------- END ERROR HANDLING ----------------- #
 
+
+# ----------------- START BASE ----------------- #
 
 @app.route('/')
 def index():
@@ -155,7 +205,6 @@ def index():
     The rendered base.html template.
   """
   return render_template('base.html')
-  
   
   
 @app.route('/base')
@@ -169,7 +218,6 @@ def base():
   return render_template('base.html')
 
 
-
 @app.route('/about')
 def about():
   """
@@ -180,7 +228,10 @@ def about():
   """
   return render_template('about.html')
 
+# ----------------- END BASE ----------------- #
 
+
+# ----------------- START USER ----------------- #
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -194,7 +245,6 @@ def load_user(user_id):
     User: The User object corresponding to the user_id.
   """
   return User.query.get(int(user_id))
-    
     
     
 @app.route('/login', methods=['GET', 'POST'])
@@ -226,7 +276,6 @@ def login():
   return render_template('login.html')
   
   
-  
 @app.route('/profile')
 @login_required
 def profile():
@@ -247,7 +296,6 @@ def profile():
   return render_template('user.html', profile_data=profile_data)
 
 
-
 @app.route('/user')
 def user():
   """
@@ -265,7 +313,60 @@ def user():
   }
   return render_template('user.html', profile_data=profile_data)
 
+# ----------------- END USER ----------------- #
 
+
+# ----------------- START MESSAGING ----------------- #
+
+class MessageForm(FlaskForm):
+  """
+  Represents a form for sending messages.
+
+  Attributes:
+    receiver (StringField): The receiver of the message.
+    content (TextAreaField): The content of the message.
+  """
+  receiver = StringField('Receiver', validators=[DataRequired()])
+  content = TextAreaField('Content', validators=[DataRequired()])
+
+
+@app.route('/message', methods=['GET', 'POST'])
+@login_required
+def send_message():
+  """
+  Send a message to another user.
+
+  This function handles the logic for sending a message to another user.
+  It validates the form data, checks if the receiver exists, creates a new message,
+  and stores it in the database. It also retrieves the received messages for the
+  current user and renders the message.html template.
+
+  Returns:
+    A rendered template with the message form and received messages.
+  """
+  form = MessageForm()
+  if form.validate_on_submit():
+    # Get receiver's ID
+    receiver_username = form.receiver.data
+    receiver = User.query.filter_by(username=receiver_username).first()
+    if not receiver:
+      flash('Receiver not found!', 'error')
+      return render_template('message.html', form=form)
+    
+    # Create a new message
+    message = Message(useridsender=1, useridreceiver=receiver.userid, content=form.content.data)
+    db.session.add(message)
+    db.session.commit()
+    flash('Message sent successfully!', 'success')
+    
+  received_messages = Message.query.filter_by(useridreceiver=current_user.userid).all()
+  
+  return render_template('message.html', form=form, messages=received_messages)
+
+# ----------------- END MESSAGING ----------------- #
+
+
+# ----------------- START SEARCH ----------------- #
 
 @app.route('/search', methods=['POST'])
 def search_users():
@@ -290,6 +391,10 @@ def search_users():
     return render_template('search_user.html', profile_data=search_results)
   else:
     return jsonify([])
-   
+
+# ----------------- END SEARCH ----------------- #
+
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
