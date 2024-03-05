@@ -1,0 +1,98 @@
+/* Static/css/ad_hoc_query.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  margin-top: 80px;
+  color: #333;
+  text-align: center;
+}
+
+form {
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  margin-left: 20px;
+}
+
+textarea {
+  width: 85%;
+  height: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: auto; /* Center horizontally */
+}
+
+input[type="submit"] {
+  width: 20%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 250px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+
+#searchPopup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#searchPopup .w3-modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 150%;
+  max-width: 800px;
+}
+
+#searchPopup .w3-modal-content .w3-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#searchPopup input[type="text"],
+#searchPopup button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+#searchPopup button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+#searchPopup button:hover {
+  background-color: #45a049;
+}
