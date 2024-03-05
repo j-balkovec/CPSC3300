@@ -1,14 +1,11 @@
-<!-- templates/login.html -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/login.css') }}"
+      href="{{ url_for('static', filename='css/message.css') }}"
     />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link
@@ -19,7 +16,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <script src="{{ url_for('static', filename='js/message.js')|safe }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <title>Send Message</title>
   </head>
   <body>
     <div class="w3-top">
@@ -73,61 +72,43 @@
         ></a>
       </div>
     </div>
-    <!-- Page content -->
-    <div class="w3-content" style="max-width: 2000px; margin-top: 46px">
-      <!-- Search Pop-up Window -->
-      <div id="searchPopup" class="w3-modal">
-        <div class="w3-modal-content w3-animate-top w3-card-4">
-          <header class="w3-container w3-teal w3-center w3-padding-32">
-            <span
-              onclick="closeSearchPopup()"
-              class="w3-button w3-teal w3-xlarge w3-display-topright"
-              >&times;</span
-            >
-            <h2 class="w3-wide">
-              <i class="fa fa-search w3-margin-right"></i>Search
-            </h2>
-          </header>
-          <div class="w3-container">
-            <input
-              type="text"
-              id="searchQuery"
-              placeholder="Search by username or email"
-            />
-            <button onclick="performSearch()">Search</button>
-            <div id="searchResults"></div>
-            <!-- Display search results here -->
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="container">
-      <h1>Login</h1>
-      <form method="post">
-        {{ csrf_token }} {% if error %}
-        <p>{{ error }}</p>
-        {% endif %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
-        <input type="hidden" name="next" value="{{ next }}" />
-        <div class="loginbtn">
-          <button type="submit">Login</button>
+      <h1>Send Message</h1>
+      <form method="POST" id="messageForm">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          <label for="receiver">Receiver</label>
+          {{ form.receiver(class="form-control", id="receiver") }} {% for error
+          in form.receiver.errors %}
+          <span class="error-message">{{ error }}</span>
+          {% endfor %}
         </div>
+        <div class="form-group">
+          <label for="content">Content</label>
+          {{ form.content(class="form-control", id="content") }} {% for error in
+          form.content.errors %}
+          <span class="error-message">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <button type="submit" class="loginbtn">Send Message</button>
       </form>
     </div>
 
-    <footer
-      class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge"
-    >
-      <i class="fa fa-facebook-official w3-hover-opacity"></i>
-      <i class="fa fa-instagram w3-hover-opacity"></i>
-      <i class="fa fa-snapchat w3-hover-opacity"></i>
-      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-      <i class="fa fa-twitter w3-hover-opacity"></i>
-      <i class="fa fa-linkedin w3-hover-opacity"></i>
-    </footer>
+    <div class="container">
+      <h2>Received Messages</h2>
+      <ul class="messages-list">
+        {% for message in messages %}
+        <li class="message">
+          From: <strong>{{ message.user_sender.username }}</strong>
+          {{ message.content }}
+          <div
+            class="message-timestamp"
+            data-timestamp="{{ message.timestamp }}"
+          ></div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
