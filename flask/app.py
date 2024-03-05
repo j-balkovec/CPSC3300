@@ -54,10 +54,15 @@ from wtforms.validators import DataRequired
 from datetime import datetime
 
 """__flask_sqlalchemy_imports__"""
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import (SQLAlchemy)
 
 """__sqlalchemy_imports__"""
-from sqlalchemy import inspect
+from sqlalchemy import (inspect, 
+                        text,
+                        Result)
+
+"""__typing_imports__"""
+from typing import Any
 
 """__flask_login_imports__"""
 from flask_login import (LoginManager, 
@@ -71,6 +76,9 @@ from db.secrets import (DATABASES,
                         PASSWORD,
                         SECRET_KEY,
                         LOGGING)
+
+"""__base64_imports__"""
+import base64
 
 # Database URI
 # Construct the database URI using the database connection parameters
@@ -190,6 +198,23 @@ def forbidden(error):
     tuple: A tuple containing the rendered template and the HTTP status code 403.
   """
   return render_template('403.html'), 403
+
+
+@app.errorhandler(401) 
+def internal_server_error(error):
+  """
+  Error handler for 401 Unauthorized error.
+  
+  This function is called when a 401 error occurs in the Flask application. It renders the '401.html' template
+  and returns a 401 status code.
+  
+  Parameters:
+    error (Exception): The exception object representing the error.
+    
+  Returns:
+    tuple: A tuple containing the rendered template and the HTTP status code 401.
+  """
+  return render_template('401.html'), 401
 
 # ----------------- END ERROR HANDLING ----------------- #
 
@@ -365,6 +390,157 @@ def send_message():
 
 # ----------------- END MESSAGING ----------------- #
 
+
+# ----------------- START QUERIES ----------------- #
+
+def convert_to_list2(results: Result[Any]) -> list:
+    """
+    Convert the result proxy to a list of lists.
+
+    Args:
+        results (ResultProxy): The result proxy object to be converted.
+
+    Returns:
+        list: A list of lists containing the results.
+    """
+    results_list = []
+    for row in results:
+        row_values = []
+        for value in row:
+            if isinstance(value, bytes):
+                row_values.append(value.decode('utf-8'))  # Assuming utf-8 encoding
+            else:
+                row_values.append(value)
+        results_list.append(row_values)
+    return results_list
+
+def convert_to_list(results):
+    labels = results.keys()
+    data = results.fetchall()
+    list_with_labels = []
+    for row in data:
+        row_with_labels = {}
+        for i, label in enumerate(labels):
+            if isinstance(row[i], bytes):
+                # Convert binary data to Base64 string
+                row_with_labels[label] = base64.b64encode(row[i]).decode('utf-8')
+            else:
+                row_with_labels[label] = row[i]
+        list_with_labels.append(row_with_labels)
+    return list_with_labels
+
+#helper
+@app.route('/query', methods=['GET', 'POST'])
+def query():
+
+    query_one = """
+        SELECT * FROM 
+        (
+            SELECT User.UserID, 
+                   User.Username,
+                   Profile.Bio, 
+                   Profile.Education, 
+                   Profile.Job
+            FROM User
+            INNER JOIN Profile ON User.UserID = Profile.UserID 
+        ) AS query_one;
+    """
+    
+    query_two = """ 
+        SELECT *
+        FROM (
+            SELECT AVG(StreakDuration) AS average_streak_duration
+            FROM Plant
+        ) AS query_two;
+    """
+
+    query_three = """
+        SELECT query_three.GoalsCount, Profile.*
+        FROM (
+            SELECT COUNT(*) AS GoalsCount, UserID
+            FROM Goal
+            WHERE UserID IN (
+                SELECT UserID
+                FROM Profile
+                WHERE Job = 'Software Engineer'
+            )
+            GROUP BY UserID
+        ) AS query_three
+        INNER JOIN Profile ON query_three.UserID = Profile.UserID;
+    """
+    
+    query_four = """
+        SELECT *
+        FROM (
+            SELECT 
+                Goal.UserID,
+                COUNT(*) AS TotalGoals,
+                AVG(Score) AS AverageScore
+            FROM 
+                Goal
+            WHERE
+                PrivacySettings = 'Public'
+            GROUP BY 
+                Goal.UserID
+            HAVING 
+                TotalGoals <> 0
+                AND AverageScore >= 10
+        ) AS query_four;
+    """
+
+    query_five = """
+        SELECT *
+        FROM (
+            SELECT User.UserID, User.Username, Goal.Content
+            FROM User
+            LEFT OUTER JOIN Goal ON User.UserID = Goal.UserID
+        ) AS query_five;
+    """
+    
+    results_one = db.session.execute(text(query_one))
+    list_one = convert_to_list(results_one)
+    
+    results_two = db.session.execute(text(query_two))
+    list_two = convert_to_list(results_two)
+    
+    results_three = db.session.execute(text(query_three))
+    list_three = convert_to_list(results_three)
+    
+    results_four = db.session.execute(text(query_four))
+    list_four = convert_to_list(results_four)
+    
+    results_five = db.session.execute(text(query_five))
+    list_five = convert_to_list(results_five)
+    
+    data = {
+        "User Profiles": list_one,
+        "Average": list_two,
+        "Software Engineer": list_three,
+        "Users with Public Goals and Average Score >= 10": list_four,
+        "Usernames, User IDs, and Associated Goal Content": list_five
+    }
+    
+    return render_template('query_results.html', json_data=data)
+    
+
+# ----------------- START QUERIES ----------------- #
+
+#add routes ot navbar
+@app.route('/ad_hoc', methods=['GET', 'POST'])
+def ad_hoc_query():
+  if request.method == 'POST':
+    sql_query = request.form.get('sql_query')
+    
+    query_result = db.session.execute(text(sql_query))
+    list_result = convert_to_list(query_result)
+    
+    data = {
+      "Current Query": list_result,
+    }
+    return render_template('query_results.html', json_data=data)
+  
+  else:
+    return render_template('ad_hoc_query.html')
 
 # ----------------- START SEARCH ----------------- #
 
