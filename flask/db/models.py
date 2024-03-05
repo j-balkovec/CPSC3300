@@ -268,13 +268,32 @@ class Message(db.Model):
         timestamp (datetime): The timestamp when the message was sent.
         status (str): The status of the message.
     """
-    messageid = db.Column(db.Integer, primary_key=True)
+    messageid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     useridsender = db.Column(db.Integer, db.ForeignKey('User.userid', ondelete='CASCADE'))
     useridreceiver = db.Column(db.Integer, db.ForeignKey('User.userid', ondelete='CASCADE'))
     content = db.Column(db.String(255), nullable=True)
     timestamp = db.Column(db.DateTime, nullable=True)
     status = db.Column(db.String(9), nullable=True)
 
+    user_sender = db.relationship('User', foreign_keys=[useridsender])
+    user_receiver = db.relationship('User', foreign_keys=[useridreceiver])
+    
+    def __init__(self, useridsender, useridreceiver, content):
+        """
+        Initializes a new Message object.
+
+        Args:
+            useridsender (int): The ID of the user who sent the message.
+            useridreceiver (int): The ID of the user who received the message.
+            content (str): The content of the message.
+        """
+        
+        self.useridsender = useridsender
+        self.useridreceiver = useridreceiver
+        self.content = content
+        self.timestamp = datetime.now()
+        self.status = 'sent'
+        
     def __repr__(self):
         """
         Returns a string representation of the Message object.
