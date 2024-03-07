@@ -1,0 +1,149 @@
+/* static/database.css */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  font-family: monospace;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-family: monospace;
+}
+
+td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: monospace;
+}
+
+/* Container styling */
+.database {
+  top: 30px;
+  padding: 20px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile table specific styling */
+.profile-table {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.profile-table table {
+  width: 100%;
+  padding: 12px;
+  border-collapse: collapse;
+  font-family: monospace;
+}
+
+.profile-table th {
+  padding: 12px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  font-family: monospace;
+}
+
+.profile-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-family: monospace;
+}
+
+.table-header {
+  font-family: monospace;
+}
+
+.title-header {
+  font-family: monospace;
+  margin-top: 50px;
+
+}
+
+h1,
+h2 {
+  margin-top: 30px;
+  font-family: 'Monospace', monospace;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #666;
+  margin-top: 30px;
+  font-family: monospace;
+}
+
+
+/* Boiler Plate */
+html {
+  background-image: white
+}
+
+#searchPopup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#searchPopup .w3-modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 150%;
+  max-width: 800px;
+}
+
+#searchPopup .w3-modal-content .w3-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#searchPopup input[type="text"],
+#searchPopup button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+
+#searchPopup button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+#searchPopup button:hover {
+  background-color: #45a049;
+}
