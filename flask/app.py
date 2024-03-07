@@ -392,8 +392,7 @@ def send_message():
 
 
 # ----------------- START QUERIES ----------------- #
-
-def convert_to_list2(results: Result[Any]) -> list:
+def convert_to_list(results: Result[Any]):
     """
     Convert the result proxy to a list of lists.
 
@@ -403,18 +402,6 @@ def convert_to_list2(results: Result[Any]) -> list:
     Returns:
         list: A list of lists containing the results.
     """
-    results_list = []
-    for row in results:
-        row_values = []
-        for value in row:
-            if isinstance(value, bytes):
-                row_values.append(value.decode('utf-8'))  # Assuming utf-8 encoding
-            else:
-                row_values.append(value)
-        results_list.append(row_values)
-    return results_list
-
-def convert_to_list(results):
     labels = results.keys()
     data = results.fetchall()
     list_with_labels = []
@@ -429,7 +416,6 @@ def convert_to_list(results):
         list_with_labels.append(row_with_labels)
     return list_with_labels
 
-#helper
 @app.route('/query', methods=['GET', 'POST'])
 def query():
 
@@ -525,11 +511,46 @@ def query():
 
 # ----------------- START QUERIES ----------------- #
 
-#add routes ot navbar
 @app.route('/ad_hoc', methods=['GET', 'POST'])
 def ad_hoc_query():
+  
+  json_response_for_insert = {
+    "event_raised": "INSERT keyword detected/parsed, the entry was successfully inserted",
+    "next_step": "Check relations tab",
+    "status": 200
+  }
+  
+  json_response_for_alter = {
+    "error": "ALTER detected/parsed, such SQL queries are not allowed without admin status",
+    "next_step": "Contact the admin or set permission to \"admin\"",
+    "status": 403
+  }
+  
+  json_response_for_drop = {
+    "error": "DROP detected/parsed, such SQL queries are not allowed without admin status",
+    "next_step": "Contact the admin or set permission to \"admin\"",
+    "status": 403
+  }
+  
   if request.method == 'POST':
     sql_query = request.form.get('sql_query')
+    
+    # Check SQL_Query for malicious activity
+    prohibited_keywords = ['drop', 'alter', 'DROP', 'ALTER']
+    json_response_trigger_keyword = ['insert', 'INSERT']
+          
+    for keyword in prohibited_keywords:
+      if keyword.lower() in sql_query.lower():
+          if keyword.lower() == 'alter':
+              return render_template('query_results.html', json_data=json_response_for_alter)
+          elif keyword.lower() == 'drop':
+              return render_template('query_results.html', json_data=json_response_for_drop)
+    
+    # Check for 'insert' keyword
+    for keyword in json_response_trigger_keyword:
+      if keyword.lower() in sql_query.lower():
+        db.session.execute(text(sql_query))
+        #return render_template('query_results.html', json_data=json_response_for_insert)
     
     query_result = db.session.execute(text(sql_query))
     list_result = convert_to_list(query_result)
@@ -543,6 +564,35 @@ def ad_hoc_query():
     return render_template('ad_hoc_query.html')
 
 # ----------------- START SEARCH ----------------- #
+
+# ----------------- START DB ----------------- #
+
+@app.route('/database', methods=['POST', 'GET'])
+def display_db():
+  
+    table_data = {}
+
+    # Define a dictionary of table names and queries
+    queries_dict = {
+        "User": "SELECT * FROM `User`;",
+        "Profile": "SELECT * FROM `Profile`;",
+        "Group": "SELECT * FROM `Group`;",
+        "Message": "SELECT * FROM `Message`;",
+        "Goal": "SELECT * FROM `Goal`;",
+        "Plant": "SELECT * FROM `Plant`;",
+        "Comment": "SELECT * FROM `Comment`;",
+        "Like": "SELECT * FROM `Like`;",
+        "Media": "SELECT * FROM `Media`;",
+        "GroupUser": "SELECT * FROM `GroupUser`;"
+    }
+        
+    for table_name, query in queries_dict.items():
+      query_result = db.session.execute(text(query))
+      table_data[table_name] = convert_to_list(query_result)
+      
+    return render_template('database.html', data=table_data)
+      
+# ----------------- START DB ----------------- #
 
 @app.route('/search', methods=['POST'])
 def search_users():
@@ -572,5 +622,3 @@ def search_users():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-
