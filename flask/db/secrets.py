@@ -9,6 +9,8 @@ __desc__: File that contains all the secrets for the Flask application.
           This file (will be)/is used to store all the sensitive information
 
 __bugs__: None
+
+__attention__: Clear contents before pushing to git
 """
 
 import os
