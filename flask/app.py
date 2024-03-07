@@ -513,6 +513,14 @@ def query():
 
 @app.route('/ad_hoc', methods=['GET', 'POST'])
 def ad_hoc_query():
+  """
+  Handles ad hoc SQL queries.
+
+  GET method: Renders the ad_hoc_query.html template.
+  POST method: Processes the SQL query, checks for prohibited keywords,
+  executes the query if safe, and renders the query_results.html template
+  with the results or appropriate error message.
+  """
   
   json_response_for_insert = {
     "event_raised": "INSERT keyword detected/parsed, the entry was successfully inserted",
