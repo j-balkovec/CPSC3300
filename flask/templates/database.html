@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/database.css') }}"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </head>
+  <body>
+    <div class="w3-top">
+      <div class="w3-bar w3-black w3-card">
+        <!-- Pass the URL as an argument to the redirectTo function -->
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="redirectTo('#')" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+        <!-- Pass the corresponding URLs for other buttons -->
+        <a href="/login" class="w3-bar-item w3-button w3-padding-large" onclick="redirectTo('/login')">LOGIN</a>
+        <a href="/base" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/')">HOME</a>
+        <a href="/about" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/about')">ABOUT</a>
+        <a href="/message" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/message')">MESSAGE</a>
+        <a href"/database" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/database')">RELATIONS</a>
+        <a href="/query" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/query')">QUERIES</a>
+        <a href="/ad_hoc" class="w3-bar-item w3-button w3-padding-large w3-hide-small" onclick="redirectTo('/ad_hoc')">AD HOC QUERIES</a>
+        <a href="javascript:void(0)" onclick="openSearchPopup()" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+      </div>
+    </div>
+
+    <div class="database">
+    <h1 class="title-header">Goal-Garden Database</h1>
+
+    <h2 class="table-header">User Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>UserID</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Email</th>
+          <th>PhoneNumber</th>
+          <th>DateOfBirth</th>
+          <th>LastLogin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in data['User'] %}
+        <tr>
+          <td>{{ user['UserID'] }}</td>
+          <td>{{ user['Username'] }}</td>
+          <td>{{ user['Password'] }}</td>
+          <td>{{ user['Email'] }}</td>
+          <td>{{ user['PhoneNumber'] }}</td>
+          <td>{{ user['DateOfBirth'] }}</td>
+          <td>{{ user['LastLogin'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="profile-table">
+    <h2 class="table-header">Profile Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ProfileID</th>
+          <th>UserID</th>
+          <th>Bio</th>
+          <th>Education</th>
+          <th>Job</th>
+          <th>Interests</th>
+          <th>PrivacySettings</th>
+          <th>ProfilePicture</th>
+          <th>CoverPhoto</th>
+          <th>JoinDate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for profile in data['Profile'] %}
+        <tr>
+          <td>{{ profile['ProfileID'] }}</td>
+          <td>{{ profile['UserID'] }}</td>
+          <td>{{ profile['Bio'] }}</td>
+          <td>{{ profile['Education'] }}</td>
+          <td>{{ profile['Job'] }}</td>
+          <td>{{ profile['Interests'] }}</td>
+          <td>{{ profile['PrivacySettings'] }}</td>
+          <td>{{ profile['ProfilePicture'] }}</td>
+          <td>{{ profile['CoverPhoto'] }}</td>
+          <td>{{ profile['JoinDate'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> <!--profile-table-->
+
+    <h2 class="table-header">Group Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>GroupID</th>
+          <th>GroupName</th>
+          <th>Description</th>
+          <th>MemberCount</th>
+          <th>CreationDate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in data['Group'] %}
+        <tr>
+          <td>{{ group['GroupID'] }}</td>
+          <td>{{ group['GroupName'] }}</td>
+          <td>{{ group['Description'] }}</td>
+          <td>{{ group['MemberCount'] }}</td>
+          <td>{{ group['CreationDate'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">GroupUser Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>GroupID</th>
+          <th>GroupName</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for groupuser in data['GroupUser'] %}
+        <tr>
+          <td>{{ groupuser['GroupUserID'] }}</td>
+          <td>{{ groupuser['UserID'] }}</td>
+          <td>{{ groupuser['GroupID'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Message Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>MessageID</th>
+          <th>UserIDSender</th>
+          <th>UserIDReciever</th>
+          <th>Content</th>
+          <th>Timestamp</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for message in data['Message'] %}
+        <tr>
+          <td>{{ message['MessageID'] }}</td>
+          <td>{{ message['UserIDSender'] }}</td>
+          <td>{{ message['UserIDReciever'] }}</td>
+          <td>{{ message['Content'] }}</td>
+          <td>{{ message['Timestamp'] }}</td>
+          <td>{{ message['Status'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Goal Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>GoalID</th>
+          <th>UserID</th>
+          <th>ProfileID</th>
+          <th>Content</th>
+          <th>DatePosted</th>
+          <th>Frequency</th>
+          <th>Score</th>
+          <th>PrivacySettings</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for goal in data['Goal'] %}
+        <tr>
+          <td>{{ goal['GoalID'] }}</td>
+          <td>{{ goal['UserID'] }}</td>
+          <td>{{ goal['ProfileID'] }}</td>
+          <td>{{ goal['Content'] }}</td>
+          <td>{{ goal['DatePosted'] }}</td>
+          <td>{{ goal['Frequency'] }}</td>
+          <td>{{ goal['Score'] }}</td>
+          <td>{{ goal['PrivacySettings'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Plant Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>PlantID</th>
+          <th>GoalID</th>
+          <th>ProfileID</th>
+          <th>StreakAlive</th>
+          <th>StreakDuration</th>
+          <th>DaysStreakDead</th>
+          <th>DaysStreakKeptAlive</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for plant in data['Plant'] %}
+        <tr>
+          <td>{{ plant['PlantID'] }}</td>
+          <td>{{ plant['GoalID'] }}</td>
+          <td>{{ plant['ProfileID'] }}</td>
+          <td>{{ plant['StreakAlive'] }}</td>
+          <td>{{ plant['StreakDuration'] }}</td>
+          <td>{{ plant['DaysStreakDead'] }}</td>
+          <td>{{ plant['DaysStreakKeptAlive'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Comment Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>CommentID</th>
+          <th>Content</th>
+          <th>GoalID</th>
+          <th>Timestamp</th>
+          <th>UserID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comment in data['Comment'] %}
+        <tr>
+          <td>{{ comment['CommentID'] }}</td>
+          <td>{{ comment['Content'] }}</td>
+          <td>{{ comment['GoalID'] }}</td>
+          <td>{{ comment['Timestamp'] }}</td>
+          <td>{{ comment['UserID'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Like Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>LikeID</th>
+          <th>GoalID</th>
+          <th>UserID</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for like in data['Like'] %}
+        <tr>
+          <td>{{ like['LikeID'] }}</td>
+          <td>{{ like['GoalID'] }}</td>
+          <td>{{ like['UserID'] }}</td>
+          <td>{{ like['Timestamp'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="table-header">Media Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>MediaID</th>
+          <th>GoalID</th>
+          <th>UserID</th>
+          <th>Content</th>
+          <th>DateUploaded</th>
+          <th>PrivacySettings</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for media in data['Media'] %}
+        <tr>
+          <td>{{ media['MediaID'] }}</td>
+          <td>{{ media['GoalID'] }}</td>
+          <td>{{ media['UserID'] }}</td>
+          <td>{{ media['Content'] }}</td>
+          <td>{{ media['DateUploaded'] }}</td>
+          <td>{{ media['PrivacySettings'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> <!--div class="database"-->
+  </body>
+  <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </footer>
+</html>
